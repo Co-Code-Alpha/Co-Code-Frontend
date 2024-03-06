@@ -5,15 +5,18 @@ using UnityEngine.UI;
 
 public class TitleUIManager : MonoBehaviour
 {
-    // Start is called before the first frame update
+    [Header("UI Objects")]
+    public GameObject signInWindow;
+    
+    private bool signInWindowOpened = false;
+    
     void Start()
     {
         
     }
 
-    // Update is called once per frame
-    void Update()
+    public void ManageSignIn()
     {
-        
+        signInWindow.SetActive(signInWindowOpened = !signInWindowOpened);
     }
 }
