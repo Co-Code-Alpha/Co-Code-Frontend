@@ -21,8 +21,8 @@ MonoBehaviour:
   buttonNormalColor: {r: 0.21568628, g: 0.29411766, b: 0.37254903, a: 255}
   buttonAccentColor: {r: 1, g: 1, b: 1, a: 255}
   buttonDisabledAlpha: 0.4
-  dropdownFont: {fileID: 11400000, guid: 4bd810f1cbcb0f446a8f5a31453e243f, type: 2}
-  dropdownItemFont: {fileID: 11400000, guid: 4bd810f1cbcb0f446a8f5a31453e243f, type: 2}
+  dropdownFont: {fileID: 11400000, guid: c39692aaf482a4a838bd5fb4ea5f7fdf, type: 2}
+  dropdownItemFont: {fileID: 11400000, guid: c39692aaf482a4a838bd5fb4ea5f7fdf, type: 2}
   dropdownBackgroundColor: {r: 0.21568628, g: 0.29411766, b: 0.37254903, a: 255}
   dropdownContentBackgroundColor: {r: 0.1764706, g: 0.25490198, b: 0.33333334, a: 255}
   dropdownPrimaryColor: {r: 1, g: 1, b: 1, a: 255}
