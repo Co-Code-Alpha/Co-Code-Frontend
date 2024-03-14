@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Michsky.MUIP;
 
 public class LobbyUIManager : MonoBehaviour
 {
-    [Header("UI Objects")]
+    [Header("UI Panels")]
     public GameObject profilePanel;
     public GameObject shopPanel;
     public GameObject stagePanel;
@@ -15,7 +16,11 @@ public class LobbyUIManager : MonoBehaviour
     public GameObject rankingPanel;
     public GameObject optionPanel;
     public GameObject searchPanel;
-
+    [Header("Option Objects")]
+    public SliderManager backgroundMusicSlider;
+    public SliderManager effectMusicSlider;
+    public Toggle codeSaveToggle;
+    
     private GameObject currentPanel;
     
     void Start()
@@ -65,11 +70,20 @@ public class LobbyUIManager : MonoBehaviour
         currentPanel.SetActive(true);
     }
     
+    // OPTION UI
+    
     public void ManageOption()
     {
         currentPanel.SetActive(false);
         currentPanel = optionPanel;
         currentPanel.SetActive(true);
+    }
+
+    public void ResetOptionUI()
+    {
+        backgroundMusicSlider.mainSlider.value = 1f;
+        effectMusicSlider.mainSlider.value = 1f;
+        codeSaveToggle.isOn = true;
     }
     
     public void ManageSearch()
