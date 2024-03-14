@@ -873,6 +873,7 @@ MonoBehaviour:
   targetSlider: {fileID: 535532771}
   targetText: {fileID: 1918805429}
   targetSceneName: Lobby
+  tipFilePath: Assets/Tooltip/tips.txt
 --- !u!4 &1918923027
 Transform:
   m_ObjectHideFlags: 0

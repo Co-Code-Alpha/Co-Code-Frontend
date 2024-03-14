@@ -1,9 +1,12 @@
 using System.Collections;
+using System.IO;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.Windows;
+using File = System.IO.File;
 
 public class SceneLoader : MonoBehaviour
 {
@@ -11,10 +14,20 @@ public class SceneLoader : MonoBehaviour
     public TMP_Text targetText;
     public string targetSceneName;
     public AsyncOperation op;
+    public string tipFilePath;
 
     void Start( )
     {
+        SetRandomTip();
         StartCoroutine( LoadScene( targetSceneName ) );
+    }
+
+    private void SetRandomTip()
+    {
+        string[] lines = File.ReadAllLines(tipFilePath);
+
+        int randIdx = Random.Range(0, lines.Length);
+        targetText.text = lines[randIdx];
     }
 
     private IEnumerator LoadScene( string targetScene )
