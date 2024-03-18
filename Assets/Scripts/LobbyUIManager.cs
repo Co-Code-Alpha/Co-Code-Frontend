@@ -16,6 +16,10 @@ public class LobbyUIManager : MonoBehaviour
     public GameObject rankingPanel;
     public GameObject optionPanel;
     public GameObject searchPanel;
+    [Header("Profile Objects")]
+    public GameObject[] editOnlyObjects;
+    public GameObject editButton;
+    private bool isEditMode = false;
     [Header("Option Objects")]
     public SliderManager backgroundMusicSlider;
     public SliderManager effectMusicSlider;
@@ -28,11 +32,37 @@ public class LobbyUIManager : MonoBehaviour
         currentPanel = profilePanel;
     }
 
+    // PROFILE UI
+    
     public void ManageProfile()
     {
         currentPanel.SetActive(false);
         currentPanel = profilePanel;
         currentPanel.SetActive(true);
+    }
+
+    public void EnterEditMode()
+    {
+        editButton.SetActive(false);
+        isEditMode = true;
+        foreach(GameObject obj in editOnlyObjects)
+            obj.SetActive(isEditMode);
+    }
+
+    public void ExitEditMode()
+    {
+        editButton.SetActive(true);
+        isEditMode = false;
+        foreach(GameObject obj in editOnlyObjects)
+            obj.SetActive(isEditMode);
+    }
+
+    public void SaveEdit()
+    {
+        editButton.SetActive(true);
+        isEditMode = false;
+        foreach(GameObject obj in editOnlyObjects)
+            obj.SetActive(isEditMode);
     }
     
     public void ManageShop()

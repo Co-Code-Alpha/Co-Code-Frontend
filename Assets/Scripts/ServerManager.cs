@@ -29,8 +29,21 @@ public class ServerManager : MonoBehaviour
         }
         catch (HttpRequestException e)
         {
-            Debug.Log("\nException Caught!");
-            Debug.Log("Message :{0} " + e.Message);
+            // ERROR
+        }
+    }
+
+    public async void GetRanking()
+    {
+        try
+        {
+            using HttpResponseMessage res = await client.GetAsync(url);
+            res.EnsureSuccessStatusCode();
+            string responseBody = await res.Content.ReadAsStringAsync();
+        }
+        catch (HttpRequestException e)
+        {
+            // ERROR
         }
     }
 }

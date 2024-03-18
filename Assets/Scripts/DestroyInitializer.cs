@@ -11,6 +11,7 @@ public class DestroyInitializer : MonoBehaviour
     {
         foreach (GameObject target in destroyObjects)
             DontDestroyOnLoad(target);
-    }
 
+        SceneManager.LoadScene("Title");
+    }
 }

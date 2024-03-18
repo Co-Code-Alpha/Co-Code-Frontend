@@ -38,8 +38,9 @@ public class SceneLoader : MonoBehaviour
         float timer = 0.0f;
         while (!op.isDone)
         {
-            float randSec = Random.Range(0.05f, 0.4f);
-            yield return new WaitForSeconds(randSec);
+            //float randSec = Random.Range(0.05f, 0.1f);
+            //yield return new WaitForSeconds(randSec);
+            yield return null;
             timer += Time.deltaTime;
             if (op.progress < 0.9f)
             {
