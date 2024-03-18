@@ -30,6 +30,6 @@ public class TitleUIManager : MonoBehaviour
 
     public void GoToLobby()
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(2);
     }
 }

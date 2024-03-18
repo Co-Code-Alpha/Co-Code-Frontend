@@ -12,7 +12,7 @@ public class ServerManager : MonoBehaviour
     {
         client = new HttpClient();
         
-        ConnectionTest();
+        // ConnectionTest();
     }
 
     private async void ConnectionTest()

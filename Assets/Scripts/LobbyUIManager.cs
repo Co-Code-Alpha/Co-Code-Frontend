@@ -24,12 +24,15 @@ public class LobbyUIManager : MonoBehaviour
     public SliderManager backgroundMusicSlider;
     public SliderManager effectMusicSlider;
     public Toggle codeSaveToggle;
+    public Button resetButton;
     
     private GameObject currentPanel;
     
     void Start()
     {
         currentPanel = profilePanel;
+        
+        ConnectOptionManager();
     }
 
     // PROFILE UI
@@ -107,6 +110,29 @@ public class LobbyUIManager : MonoBehaviour
         currentPanel.SetActive(false);
         currentPanel = optionPanel;
         currentPanel.SetActive(true);
+    }
+
+    public void ConnectOptionManager()
+    {
+        OptionManager optionManager = FindObjectOfType<OptionManager>();
+        Debug.Log("OPTION MANAGER CONNECT : " + optionManager);
+        
+        resetButton.onClick.AddListener(() =>
+        {
+            optionManager.ResetOption();
+        });
+
+        codeSaveToggle.isOn = PlayerPrefs.GetInt("codeSave") == 1;
+        codeSaveToggle.onValueChanged.AddListener(delegate(bool arg)
+        {
+            optionManager.SaveCodeSave(arg);
+        });
+
+        backgroundMusicSlider.mainSlider.value = PlayerPrefs.GetFloat("backgroundMusic");
+        backgroundMusicSlider.mainSlider.onValueChanged.AddListener(optionManager.SaveBackgroundMusic);
+
+        effectMusicSlider.mainSlider.value = PlayerPrefs.GetFloat("effectMusic");
+        effectMusicSlider.mainSlider.onValueChanged.AddListener(optionManager.SaveEffectMusic);
     }
 
     public void ResetOptionUI()
