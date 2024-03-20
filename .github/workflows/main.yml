@@ -1,22 +1,32 @@
 name: Automated Build ⭐
 
 on:
-  push: # Master 브랜치에 Push가 되면 빌드가 되도록 동작시킵니다.
-    branches: [ main ]
-    
+  push:
+    branches: [main]
+
 jobs:
+  checkCommitMessage:
+    name: Check Commit Message [DOCS]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check commit message
+        id: check_message
+        run: echo ::set-output name=contain::$(if [[ $(git log --format=%B -n 1 ${{ github.sha }}) == *'[DOCS]'* ]]; then echo true; else echo false; fi)
+
   buildWindows:
     name: 💻 Windows-64 Bit
-    runs-on: windows-latest # 윈도우를 사용합니다.
+    runs-on: windows-latest
     
+    needs: checkCommitMessage
+    if: ${{ needs.checkCommitMessage.outputs.contain == 'false' }}
+
     steps:
-      # Checkout
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           lfs: true
 
-      # Cache (캐시파일을 생성하여 다음 빌드시 더 빠르게 빌드를 할 수 있도록 해줍니다.)
       - uses: actions/cache@v4
         with:
           path: Library
@@ -24,7 +34,6 @@ jobs:
           restore-keys: |
             Library-
 
-      # Build
       - name: Build project
         uses: game-ci/unity-builder@v4
         env:
@@ -34,7 +43,6 @@ jobs:
         with:
           targetPlatform: StandaloneWindows64
 
-      # Output
       - uses: actions/upload-artifact@v4
         with:
           name: Windows Build
@@ -42,16 +50,17 @@ jobs:
  
   buildMacOS:
     name: 💻 MacOS
-    runs-on: macos-latest # MacOS를 사용합니다.
+    runs-on: macos-latest
     
+    needs: checkCommitMessage
+    if: ${{ needs.checkCommitMessage.outputs.contain == 'false' }}
+
     steps:
-      # Checkout
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           lfs: true
 
-      # Cache (캐시파일을 생성하여 다음 빌드시 더 빠르게 빌드를 할 수 있도록 해줍니다.)
       - uses: actions/cache@v4
         with:
           path: Library
@@ -59,7 +68,6 @@ jobs:
           restore-keys: |
             Library-
 
-      # Build
       - name: Build project
         uses: game-ci/unity-builder@v4
         env:
@@ -69,7 +77,6 @@ jobs:
         with:
           targetPlatform: StandaloneOSX
 
-      # Output
       - uses: actions/upload-artifact@v4
         with:
           name: MacOS Build
