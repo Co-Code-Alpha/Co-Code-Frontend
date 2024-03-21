@@ -3,24 +3,41 @@ using UnityEngine;
 
 public class BlockManager : MonoBehaviour
 {
-    private Queue<Block> blockQueue = new Queue<Block>();
+    private List<List<Block>> listOfLists = new List<List<Block>>();
 
-    public void EnqueueBlock(Block block)
+    public void MakeList()
     {
-        blockQueue.Enqueue(block);
+        List<Block> newList = new List<Block>();
+        listOfLists.Add(newList);
+    }
+    public void AddBlock(int a, Block block)
+    {
+        listOfLists[a].Add(block);
     }
 
-    public void DequeueBlock()
+    public void AddList(int a, int b)
     {
-        if (blockQueue.Count > 0)
+        listOfLists[a].AddRange(listOfLists[b]);
+    }
+
+    /*public void DequeueBlock()
+    {
+        if (blockList.Count > 0)
         {
-            Block dequeuedBlock = blockQueue.Dequeue();
+            Block dequeuedBlock = blockList.Dequeue();
             PlayBlock(dequeuedBlock);
         }
         else
         {
             return;
         }
+    }*/
+    
+
+    private void DivideList(int a, int n)
+    {
+        List<Block> newList = listOfLists[a].GetRange(n,-1);
+        listOfLists.Add(newList);
     }
 
     private void PlayBlock(Block block)
