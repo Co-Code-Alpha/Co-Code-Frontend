@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class WorkBlock : Block
+public class WorkBlock : BlockData
 {
     public void PickUp()
     {

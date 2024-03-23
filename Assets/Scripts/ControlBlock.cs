@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ControlBlock : Block
+public class ControlBlock : BlockData
 {
     public void Repeat()
     {

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class MoveBlock : Block
+public class MoveBlock : BlockData
 {
     public void Walk()
     {

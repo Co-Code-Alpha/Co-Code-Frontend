@@ -3,14 +3,14 @@ using UnityEngine;
 
 public class BlockManager : MonoBehaviour
 {
-    private List<List<Block>> listOfLists = new List<List<Block>>();
+    public List<List<BlockData>> listOfLists = new List<List<BlockData  >>();
 
     public void MakeList()
     {
-        List<Block> newList = new List<Block>();
+        List<BlockData> newList = new List<BlockData>();
         listOfLists.Add(newList);
     }
-    public void AddBlock(int a, Block block)
+    public void AddBlock(int a, BlockData block)
     {
         listOfLists[a].Add(block);
     }
@@ -36,11 +36,11 @@ public class BlockManager : MonoBehaviour
 
     private void DivideList(int a, int n)
     {
-        List<Block> newList = listOfLists[a].GetRange(n,-1);
+        List<BlockData> newList = listOfLists[a].GetRange(n,-1);
         listOfLists.Add(newList);
     }
 
-    private void PlayBlock(Block block)
+    private void PlayBlock(BlockData block)
     {
         if (block == null)
         {
