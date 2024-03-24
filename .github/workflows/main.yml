@@ -9,10 +9,12 @@ jobs:
     name: Check Commit Message [DOCS]
     runs-on: ubuntu-latest
 
+    env:
+      CONTAIN: ${{ if contains('[DOCS]', github.event.head_commit.message) }}true${{ else }}false${{ endif }}
+
     steps:
       - name: Check commit message
-        id: check_message
-        run: echo ::set-output name=contain::$(if [[ "${{ github.event.head_commit.message }}" == *'[DOCS]'* ]]; then echo true; else echo false; fi)
+        run: echo "CONTAIN=${CONTAIN}" >> $GITHUB_ENV
 
   buildWindows:
     name: 💻 Windows-64 Bit
@@ -67,45 +69,4 @@ jobs:
     runs-on: macos-latest
     
     needs: checkCommitMessage
-    if: ${{ needs.checkCommitMessage.outputs.contain == 'false' }}
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          lfs: true
-
-      - uses: game-ci/unity-test-runner@v4
-        env:
-          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
-        with:
-          packageMode: true
-          projectPath: path/to/your/project
-          githubToken: ${{ secrets.GITHUB_TOKEN }}
-
-      - uses: actions/cache@v4
-        with:
-          path: Library
-          key: Library-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
-          restore-keys: |
-            Library-
-
-      - name: Build project
-        uses: game-ci/unity-builder@v4
-        env:
-          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
-          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
-          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
-        with:
-          targetPlatform: StandaloneOSX
-
-      - uses: actions/upload-artifact@v3
-        if: always()
-        with:
-          name: Test Result
-          path: artifacts
-
-      - uses: actions/upload-artifact@v4
-        with:
-          name: MacOS Build
-          path: build
+    if: ${{ needs.checkCommitMessage.outputs.contain == '
