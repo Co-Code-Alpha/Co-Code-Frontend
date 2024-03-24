@@ -24,7 +24,7 @@ jobs:
     runs-on: windows-latest
     
     needs: checkCommitMessage
-    if: ${{ needs.checkCommitMessage.outputs.contain == 'false' }}
+    if: ${{ needs.checkCommitMessage.outputs.contain == 'true' }}
 
     steps:
       - name: Checkout repository
