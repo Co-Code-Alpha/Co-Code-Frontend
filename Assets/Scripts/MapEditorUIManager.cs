@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Michsky.MUIP;
+using UnityEditor;
 
 public class MapEditorUIManager : MonoBehaviour
 {
@@ -136,6 +137,9 @@ public class MapEditorUIManager : MonoBehaviour
         {
             editor.RemoveObject(newObject);
         });
+        instanceTransform.GetChild(3).GetComponent<TMP_Text>().text = x.ToString();
+        instanceTransform.GetChild(4).GetComponent<TMP_Text>().text = y.ToString();
+        instanceTransform.GetChild(5).GetComponent<TMP_Text>().text = z.ToString();
 
         errorText.text = "";
         xInput.text = "";
@@ -144,6 +148,17 @@ public class MapEditorUIManager : MonoBehaviour
         directionDropdown.index = 0;
         selectedModel = null;
         inputPanel.SetActive(false);
+    }
+
+    public GameObject GetClickedUI(GameObject target)
+    {
+        for (int i = 0; i < editor.placedInstances.Count; i++)
+        {
+            if (editor.placedInstances[i] == target)
+                return placedObjectList[i];
+        }
+
+        return null;
     }
 
     public void RemoveInstance(int idx)

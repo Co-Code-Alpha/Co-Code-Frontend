@@ -11,19 +11,27 @@ public class ServerTest : MonoBehaviour
     
     void Start()
     {
-        Test();
+        StartCoroutine(Test());
     }
 
     IEnumerator Test()
     {
-        UnityWebRequest www = UnityWebRequest.Get(url);
+        string json =
+            "{\"mapId\":1,\"data\":[{\"x\":0,\"y\":0,\"z\":0,\"direction\":0,\"modelId\":\"test_1\"},{\"x\":0,\"y\":0,\"z\":1,\"direction\":0,\"modelId\":\"test_1\"},{\"x\":0,\"y\":0,\"z\":2,\"direction\":0,\"modelId\":\"test_1\"},{\"x\":0,\"y\":1,\"z\":0,\"direction\":0,\"modelId\":\"test_2\"}]}";
 
-        yield return www.SendWebRequest();  // 응답이 올때까지 대기한다.
+        UnityWebRequest request = UnityWebRequest.PostWwwForm(url, json);
+        byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(json);
+        request.uploadHandler = new UploadHandlerRaw(jsonToSend);
+        request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
+        request.SetRequestHeader("Content-Type", "application/json");
 
-        if (www.error == null)  // 에러가 나지 않으면 동작.
+
+        yield return request.SendWebRequest();  // 응답이 올때까지 대기한다.
+
+        if (request.error == null)  // 에러가 나지 않으면 동작.
         {
             text.text += "--------------------\n";
-            text.text += www.downloadHandler.text;
+            text.text += request.downloadHandler.text;
         }
     }
 }
