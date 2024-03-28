@@ -137,9 +137,19 @@ public class MapEditor : MonoBehaviour
 
     public void RemoveObject(MapObject target)
     {
-        foreach (MapObject obj in placedObjects)
-            if (obj == target)
-                placedObjects.Remove(obj);
+        Debug.Log("OBJECT REMOVE");
+        for (int i = 0; i < placedObjects.Count; i++)
+        {
+            if (placedObjects[i] == target)
+            {
+                placedObjects.RemoveAt(i);
+                Destroy(placedInstances[i]);
+                placedInstances.RemoveAt(i);
+                uiManager.RemoveInstance(i);
+                return;
+            }
+        }
+        Debug.Log("NO OBJECT");
     }
 
     public bool CheckPlaced(int x, int y, int z)

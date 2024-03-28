@@ -8,9 +8,9 @@ using Michsky.MUIP;
 public class MapEditorUIManager : MonoBehaviour
 {
     private MapEditor editor;
-    
-    public GameObject[] objectList;
-    public GameObject[] placedObjectList;
+
+    public List<GameObject> objectList;
+    public List<GameObject> placedObjectList;
 
     public Transform placeableListContent;
     public GameObject placeablePrefab;
@@ -38,6 +38,9 @@ public class MapEditorUIManager : MonoBehaviour
 
     void Start()
     {
+        objectList = new List<GameObject>();
+        placedObjectList = new List<GameObject>();
+        
         DrawGrid();
     }
 
@@ -69,6 +72,7 @@ public class MapEditorUIManager : MonoBehaviour
         foreach (MapObjectPrefab prefab in placeablePrefabs)
         {
             GameObject instance = Instantiate(placeablePrefab, placeableListContent);
+            objectList.Add(instance);
             instance.transform.GetChild(0).GetComponent<Image>().sprite = prefab.icon;
             instance.GetComponent<Button>().onClick.AddListener(() =>
             {
@@ -116,10 +120,22 @@ public class MapEditorUIManager : MonoBehaviour
             return;
         }
 
-
-
         MapObject newObject = new MapObject(x, y, z, directionDropdown.index, selectedModel.modelId);
         editor.AddObject(newObject);
+        
+        GameObject placedInstance = Instantiate(placedPrefab, placedListContent);
+        placedObjectList.Add(placedInstance);
+        
+        Transform instanceTransform = placedInstance.transform;
+        instanceTransform.GetChild(0).GetComponent<Image>().sprite = selectedModel.icon;
+        instanceTransform.GetChild(1).GetComponent<Button>().onClick.AddListener(() =>
+        {
+            
+        });
+        instanceTransform.GetChild(2).GetComponent<Button>().onClick.AddListener(() =>
+        {
+            editor.RemoveObject(newObject);
+        });
 
         errorText.text = "";
         xInput.text = "";
@@ -128,6 +144,12 @@ public class MapEditorUIManager : MonoBehaviour
         directionDropdown.index = 0;
         selectedModel = null;
         inputPanel.SetActive(false);
+    }
+
+    public void RemoveInstance(int idx)
+    {
+        Destroy(placedObjectList[idx]);
+        placedObjectList.RemoveAt(idx);
     }
 
     void Update()

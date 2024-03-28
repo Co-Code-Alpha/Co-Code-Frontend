@@ -7,6 +7,7 @@ public class EditorCameraController : MonoBehaviour
 {
     private CinemachineFreeLook cam;
     public bool isLensMode = false;
+    public float zoomSpeed;
 
     void Awake()
     {
@@ -29,6 +30,8 @@ public class EditorCameraController : MonoBehaviour
 
     void Update()
     {
+        ScrollZoom(Input.GetAxis("Mouse ScrollWheel"));
+        
         /*if (Input.GetKeyDown(KeyCode.A))
         {
             isLensMode = !isLensMode;
@@ -43,6 +46,16 @@ public class EditorCameraController : MonoBehaviour
                 cam.m_YAxis.m_InputAxisName = "";
             }
         }*/
+    }
+
+    private void ScrollZoom(float input)
+    {
+        if (input != 0f)
+        {
+            float zoomAmount = input * zoomSpeed * Time.deltaTime;
+            cam.m_Lens.OrthographicSize += zoomAmount;
+            cam.m_Lens.OrthographicSize = Mathf.Clamp(cam.m_Lens.OrthographicSize, 5f, 30f);
+        }
     }
 
     private bool GetCurrentMouseHover()
