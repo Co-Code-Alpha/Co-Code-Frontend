@@ -272,7 +272,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   text: {fileID: 1226188027}
-  url: http://localhost:6974/test
+  url: http://13.209.99.100:3000/api/auth/logout
 --- !u!1 &971788662
 GameObject:
   m_ObjectHideFlags: 0

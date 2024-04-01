@@ -1,49 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Net.Http;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class ServerManager : MonoBehaviour
 {
-    public static HttpClient client;
     public string url;
     
     void Start()
     {
-        client = new HttpClient();
         
-        // ConnectionTest();
     }
 
-    private async void ConnectionTest()
+    IEnumerator Test()
     {
-        try
-        {
-            using HttpResponseMessage response = await client.GetAsync(url);
-            response.EnsureSuccessStatusCode();
-            string responseBody = await response.Content.ReadAsStringAsync();
-            // Above three lines can be replaced with new helper method below
-            // string responseBody = await client.GetStringAsync(uri);
+        UnityWebRequest request = UnityWebRequest.Get(url);
 
-            Debug.Log(responseBody);
-        }
-        catch (HttpRequestException e)
-        {
-            // ERROR
-        }
-    }
 
-    public async void GetRanking()
-    {
-        try
+        yield return request.SendWebRequest();  // 응답이 올때까지 대기한다.
+
+        if (request.error == null)  // 에러가 나지 않으면 동작.
         {
-            using HttpResponseMessage res = await client.GetAsync(url);
-            res.EnsureSuccessStatusCode();
-            string responseBody = await res.Content.ReadAsStringAsync();
-        }
-        catch (HttpRequestException e)
-        {
-            // ERROR
+            // text.text += request.downloadHandler.text;
         }
     }
 }

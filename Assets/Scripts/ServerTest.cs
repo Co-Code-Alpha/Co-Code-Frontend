@@ -16,14 +16,17 @@ public class ServerTest : MonoBehaviour
 
     IEnumerator Test()
     {
-        string json =
-            "{\"mapId\":1,\"data\":[{\"x\":0,\"y\":0,\"z\":0,\"direction\":0,\"modelId\":\"test_1\"},{\"x\":0,\"y\":0,\"z\":1,\"direction\":0,\"modelId\":\"test_1\"},{\"x\":0,\"y\":0,\"z\":2,\"direction\":0,\"modelId\":\"test_1\"},{\"x\":0,\"y\":1,\"z\":0,\"direction\":0,\"modelId\":\"test_2\"}]}";
+        //string json =
+            //"{\"mapId\":1,\"data\":[{\"x\":0,\"y\":0,\"z\":0,\"direction\":0,\"modelId\":\"test_1\"},{\"x\":0,\"y\":0,\"z\":1,\"direction\":0,\"modelId\":\"test_1\"},{\"x\":0,\"y\":0,\"z\":2,\"direction\":0,\"modelId\":\"test_1\"},{\"x\":0,\"y\":1,\"z\":0,\"direction\":0,\"modelId\":\"test_2\"}]}";
 
-        UnityWebRequest request = UnityWebRequest.PostWwwForm(url, json);
+        /*UnityWebRequest request = UnityWebRequest.PostWwwForm(url, json);
         byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(json);
         request.uploadHandler = new UploadHandlerRaw(jsonToSend);
         request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
-        request.SetRequestHeader("Content-Type", "application/json");
+        request.SetRequestHeader("Content-Type", "application/json");*/
+
+
+        UnityWebRequest request = UnityWebRequest.Get(url);
 
 
         yield return request.SendWebRequest();  // 응답이 올때까지 대기한다.
