@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,26 +7,67 @@ using TMPro;
 
 public class ServerManager : MonoBehaviour
 {
-    public string url;
+    private string url = "http://13.209.99.100:3000/";
     public GameObject loadPanel;
     private GameObject loadInstance;
     
     void Start()
     {
-        SetLoadPanel("연결 확인 중");
+        StartCoroutine(Test());
+    }
+    
+    // CLASS
+    
+    [Serializable]
+    public class User
+    {
+        public string userId;
+        public string password;
+        public string nickname;
+        public string email;
+
+        public User(string userId, string password, string nickname, string email)
+        {
+            this.userId = userId;
+            this.password = password;
+            this.nickname = nickname;
+            this.email = email;
+        }
+    }
+    
+    // METHOD
+
+    public void SignUpRequest(string userId, string password, string nickname, string email)
+    {
+        StartCoroutine(SignUp(userId, password, nickname, email));
+    }
+    
+    IEnumerator SignUp(string id, string password, string nickname, string email)
+    {
+        User user = new User(id, password, nickname, email);
+        string json = JsonUtility.ToJson(user);
+        UnityWebRequest request = UnityWebRequest.PostWwwForm(url + "api/auth/join", json);
+        byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(json);
+        request.uploadHandler = (UploadHandler)new UploadHandlerRaw(jsonToSend);
+        request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
+        request.SetRequestHeader("Content-Type", "application/json");
+
+        yield return request.SendWebRequest();
+        Debug.Log(request.result);
     }
 
     IEnumerator Test()
     {
         UnityWebRequest request = UnityWebRequest.Get(url);
+        Debug.Log(request);
 
+        SetLoadPanel("서버 요청 중");
 
-        yield return request.SendWebRequest();
+        yield return new WaitForSeconds(1f);
+        
+        ///yield return request.SendWebRequest();
 
-        if (request.error == null)
-        {
-            // text.text += request.downloadHandler.text;
-        }
+        DestroyLoadPanel();
     }
 
     private void SetLoadPanel(string target)
