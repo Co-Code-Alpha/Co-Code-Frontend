@@ -1,43 +1,45 @@
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+using Unity.VisualScripting;
+
+
+[Serializable]
+public class BlockDataList
+{
+    public List<BlockData> blockList = new List<BlockData>();
+}
 
 public class BlockManager : MonoBehaviour
 {
-    public List<List<BlockData>> listOfLists = new List<List<BlockData  >>();
+    [SerializeField]
+    public List<BlockDataList> listOfLists = new List<BlockDataList>();
 
-    public void MakeList()
+    public void MakeList(BlockData blockData)
     {
-        List<BlockData> newList = new List<BlockData>();
+        BlockDataList newList = new BlockDataList();
+        newList.blockList.Add(blockData);
         listOfLists.Add(newList);
     }
     public void AddBlock(int a, BlockData block)
     {
-        listOfLists[a].Add(block);
+        listOfLists[a].blockList.Add(block);
     }
 
-    public void AddList(int a, int b)
+    public void AddList(int a, int b, int n)
     {
-        listOfLists[a].AddRange(listOfLists[b]);
+        List<BlockData> newList = listOfLists[b].blockList.GetRange(n,listOfLists[b].blockList.Count - n);
+        listOfLists[a].blockList.AddRange(newList);
+        listOfLists[b].blockList.RemoveRange(n, listOfLists[b].blockList.Count - n);    
     }
-
-    /*public void DequeueBlock()
-    {
-        if (blockList.Count > 0)
-        {
-            Block dequeuedBlock = blockList.Dequeue();
-            PlayBlock(dequeuedBlock);
-        }
-        else
-        {
-            return;
-        }
-    }*/
     
-
-    private void DivideList(int a, int n)
+    public void DivideList(int a, int n)
     {
-        List<BlockData> newList = listOfLists[a].GetRange(n,-1);
-        listOfLists.Add(newList);
+        List<BlockData> newList = listOfLists[a].blockList.GetRange(n,listOfLists[a].blockList.Count - n);
+        BlockDataList newBlockDataList = new BlockDataList();
+        newBlockDataList.blockList = newList;
+        listOfLists.Add(newBlockDataList);
+        listOfLists[a].blockList.RemoveRange(n, listOfLists[a].blockList.Count - n);
     }
 
     private void PlayBlock(BlockData block)
