@@ -11,7 +11,6 @@ public class DragDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDrag
     public bool isAttaching = false;
     public bool onWindow = false;
     public bool divideCheck = false;
-    public bool addCheck = false;
     
     public static Vector2 defaultPos;
     public Vector3 attachPosition;
@@ -36,12 +35,10 @@ public class DragDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDrag
         if (isAttaching)
         {
             divideCheck = true;
-            addCheck = false;
         }
         else
         {
             divideCheck = false;
-            addCheck = true;
             prevIndex = listIndex;
         }
     }
@@ -109,7 +106,9 @@ public class DragDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDrag
                 if (isAttaching)
                 {
                     coppiedBlock.transform.position = attachPosition;
-                    blockManager.AddBlock(blockColliderTop.ohterBlockListIndex, blockScript.blockData);
+                    coppiedBlock.GetComponent<DragDrop>().listIndex = listIndex;
+                    Debug.Log(coppiedBlock.GetComponent<DragDrop>().listIndex);
+                    blockManager.AddBlock(coppiedBlock.GetComponent<DragDrop>().listIndex, blockScript.blockData);
                 }
                 else
                 {
@@ -121,19 +120,19 @@ public class DragDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDrag
                 coppiedBlock.GetComponent<DragDrop>().blockIndex = blockManager.listOfLists[coppiedBlock.GetComponent<DragDrop>().listIndex].blockList
                     .Count - 1;
                 transform.position = defaultPos;
+                coppiedBlock.GetComponent<DragDrop>().prevIndex = coppiedBlock.GetComponent<DragDrop>().listIndex;
             }
             else if (isAttaching)
             {
-                blockIndex = blockManager.listOfLists[listIndex].blockList.Count - 1;
+                if (prevIndex != listIndex)
+                {
+                    blockManager.AddList(listIndex, prevIndex, blockIndex);
+                }
+
+                blockIndex = blockColliderTop.otherBlock.GetComponent<DragDrop>().blockIndex + 1;
                 transform.position = attachPosition;
 
-                if (addCheck)
-                {
-                    if (listIndex != prevIndex)
-                    {
-                        blockManager.AddList(listIndex, prevIndex, blockIndex);
-                    }
-                }
+
 
                 if (!blockColliderBottom.isBottom)
                 {
@@ -147,6 +146,8 @@ public class DragDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDrag
                                            currentBlock.gameObject.GetComponent<RectTransform>().rect.height / 2 -
                                            bottomBlock.GetComponent<RectTransform>().rect.height / 2;
                         bottomBlock.position = bottomBlockPos;
+                        bottomBlock.GetComponent<DragDrop>().blockIndex =
+                            currentBlock.GetComponent<DragDrop>().blockIndex + 1;
 
                         // 다음 아래에 붙어있는 블록으로 이동
                         BlockColliderBottom nextCollider = bottomBlock.GetComponentInChildren<BlockColliderBottom>();
@@ -168,7 +169,34 @@ public class DragDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDrag
                 if (divideCheck)
                 {
                     blockManager.DivideList(listIndex, blockIndex);
-                    Debug.Log(blockIndex);
+                    listIndex = blockManager.listOfLists.Count - 1;
+                    blockIndex = 0;
+                    Transform bottomBlock = blockColliderBottom.otherBlock;
+                    Transform currentBlock = transform;
+                    Vector3 currentBlockPos = transform.position;
+                    while (bottomBlock != null)
+                    {
+                        Vector3 bottomBlockPos = currentBlockPos;
+                        bottomBlockPos.y = currentBlockPos.y -
+                                           currentBlock.gameObject.GetComponent<RectTransform>().rect.height / 2 -
+                                           bottomBlock.GetComponent<RectTransform>().rect.height / 2;
+                        bottomBlock.position = bottomBlockPos;
+                        bottomBlock.GetComponent<DragDrop>().blockIndex =
+                            currentBlock.GetComponent<DragDrop>().blockIndex + 1;
+
+                        // 다음 아래에 붙어있는 블록으로 이동
+                        BlockColliderBottom nextCollider = bottomBlock.GetComponentInChildren<BlockColliderBottom>();
+                        if (nextCollider != null && !nextCollider.isBottom)
+                        {
+                            currentBlock = bottomBlock;
+                            currentBlockPos = bottomBlock.position;
+                            bottomBlock = nextCollider.otherBlock;
+                        }
+                        else
+                        {
+                            bottomBlock = null;
+                        }
+                    }
                 }
                 transform.position = eventData.position;
             }
@@ -183,7 +211,6 @@ public class DragDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDrag
     {
         blockManager = FindObjectOfType<BlockManager>();
         blockColliderTop = FindObjectOfType<BlockColliderTop>();
-        blockScript = FindObjectOfType<Block>();
         blockColliderBottom = FindObjectOfType<BlockColliderBottom>();
         codeWindow = GameObject.Find("Code Window");
     }

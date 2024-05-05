@@ -30,6 +30,7 @@ public class BlockManager : MonoBehaviour
     {
         List<BlockData> newList = listOfLists[b].blockList.GetRange(n,listOfLists[b].blockList.Count - n);
         listOfLists[a].blockList.AddRange(newList);
+        Debug.Log(n);
         listOfLists[b].blockList.RemoveRange(n, listOfLists[b].blockList.Count - n);    
     }
     
