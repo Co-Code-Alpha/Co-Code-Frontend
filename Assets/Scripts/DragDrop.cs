@@ -10,6 +10,7 @@ public class DragDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDrag
     public bool isClicked = false;
     public bool isAttaching = false;
     public bool onWindow = false;
+    public bool onTrash = false;
     public bool divideCheck = false;
     
     public static Vector2 defaultPos;
@@ -30,6 +31,7 @@ public class DragDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDrag
     void IBeginDragHandler.OnBeginDrag(PointerEventData eventData)
     {
         onWindow = false;
+        onTrash = false;
         defaultPos = this.transform.position;
         isClicked = true;
         if (isAttaching)
@@ -94,8 +96,33 @@ public class DragDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDrag
             {
                 onWindow = true;
             }
+
+            if (result.gameObject.CompareTag("Trash"))
+            {
+                onTrash = true;
+            }
         }
 
+        if (onTrash && isDropped)
+        {
+            blockManager.listOfLists[listIndex].blockList.RemoveRange(blockIndex, blockManager.listOfLists[listIndex].blockList.Count - blockIndex);
+            
+            Transform bottomBlock = blockColliderBottom.otherBlock;
+            while (bottomBlock != null)
+            {
+                Transform nextBottomBlock = null;
+                BlockColliderBottom nextCollider = bottomBlock.GetComponentInChildren<BlockColliderBottom>();
+                if (nextCollider != null && !nextCollider.isBottom)
+                {
+                    nextBottomBlock = nextCollider.otherBlock;
+                }
+                Destroy(bottomBlock.gameObject);
+                bottomBlock = nextBottomBlock;
+            }
+    
+            Destroy(gameObject);
+        }
+        
         if (onWindow)
         {
             if (isDropped == false)

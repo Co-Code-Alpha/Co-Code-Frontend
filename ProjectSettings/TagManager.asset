@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Window
   - Block
+  - Trash
   layers:
   - Default
   - TransparentFX
