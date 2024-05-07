@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Michsky.MUIP;
+using DG.Tweening;
+using UnityEngine.Timeline;
 
 public class LobbyUIManager : MonoBehaviour
 {
@@ -20,6 +22,10 @@ public class LobbyUIManager : MonoBehaviour
     public GameObject[] editOnlyObjects;
     public GameObject editButton;
     private bool isEditMode = false;
+    [Header("Q&A Objects")]
+    public TMP_InputField chatInput;
+    public GameObject chatPrefab;
+    public Transform chatContent;
     [Header("Option Objects")]
     public SliderManager backgroundMusicSlider;
     public SliderManager effectMusicSlider;
@@ -33,6 +39,8 @@ public class LobbyUIManager : MonoBehaviour
         currentPanel = profilePanel;
         
         ConnectOptionManager();
+
+        CreateChat("kajdflkajsdflkjasdlkfajsakldjflakjdflkadsjflkasjdflkasjdfklasldfnaskldfjaklsdfjaklsejfdklasjdfklasjdklfsajdlkfasjdfklajsdfklajsdkflsajdfkljsdlkjajsdklfajsdflkajsdklfasjdflkajdsflkfdjdklgsjdlgkjasldkgjasldkgjasdlkgjaslkdgjsldkgjd");
     }
 
     // PROFILE UI
@@ -101,6 +109,26 @@ public class LobbyUIManager : MonoBehaviour
         currentPanel.SetActive(false);
         currentPanel = rankingPanel;
         currentPanel.SetActive(true);
+    }
+    
+    // Q&A UI
+
+    public void SendChat()
+    {
+        ServerManager manager = FindObjectOfType<ServerManager>();
+        string text = chatInput.text;
+    }
+
+    public void CreateChat(string text)
+    {
+        GameObject chat = Instantiate(chatPrefab, chatContent);
+        TMP_Text targetText = chat.transform.GetChild(1).GetComponent<TMP_Text>();
+        targetText.text = text;
+        RectTransform rect = chat.GetComponent<RectTransform>();
+
+        int charCount = targetText.text.Length;
+        int lineCount = (int)Mathf.Ceil(charCount / 60f);
+        rect.sizeDelta = new Vector2(rect.sizeDelta.x, lineCount * 50f);
     }
     
     // OPTION UI
