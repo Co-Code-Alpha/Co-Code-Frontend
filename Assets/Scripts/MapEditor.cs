@@ -13,14 +13,17 @@ public class MapObject
     // 0 Forward / 1 Back / 2 Left / 3 Right / 4 Up / 5 Down
     public int direction;
     public string modelId;
+
+    public bool isTile;
     
-    public MapObject(int x, int y, int z, int direction, string id)
+    public MapObject(int x, int y, int z, int direction, string id, bool isTile)
     {
         this.x = x;
         this.y = y;
         this.z = z;
         this.direction = direction;
         this.modelId = id;
+        this.isTile = isTile;
     }
 
     public int GetX()
@@ -71,6 +74,16 @@ public class MapObject
     public void SetID(string id)
     {
         this.modelId = id;
+    }
+
+    public bool GetTile()
+    {
+        return isTile;
+    }
+
+    public void SetTile(bool isTile)
+    {
+        this.isTile = isTile;
     }
 }
 
