@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Walk
   m_EditorClassIdentifier: 
   name: Walk
-  num: 0
+  num: 1

@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4454a2c86a2a94327927e747acbe9e7a, type: 3}
   m_Name: Turn Left
   m_EditorClassIdentifier: 
-  name: 
-  num: 0
+  name: Turn Left
+  num: 3

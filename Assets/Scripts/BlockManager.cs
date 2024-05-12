@@ -12,6 +12,9 @@ public class BlockDataList
 
 public class BlockManager : MonoBehaviour
 {
+    public GameObject player;
+    public float speed = 1f;
+    
     [SerializeField]
     public List<BlockDataList> listOfLists = new List<BlockDataList>();
 
@@ -43,31 +46,43 @@ public class BlockManager : MonoBehaviour
         listOfLists[a].blockList.RemoveRange(n, listOfLists[a].blockList.Count - n);
     }
 
-    private void PlayBlock(BlockData block)
+    public void PlayBlock(BlockData block)
     {
         if (block == null)
         {
             return;
         }
 
-        if (block is MoveBlock)
+        switch (block.num)
         {
-            MoveBlock moveBlock = (MoveBlock)block;
-            moveBlock.Walk();
-        }
-        else if (block is ControlBlock)
-        {
-            ControlBlock controlBlock = (ControlBlock)block;
-            controlBlock.Repeat();
-        }
-        else if (block is WorkBlock)
-        {
-            WorkBlock workBlock = (WorkBlock)block;
-            workBlock.PickUp();
-        }
-        else
-        {
-            return;
+            case 1:
+                Walk();
+                break;
+            case 2:
+                TurnRight();
+                break;
+            case 3:
+                TurnLeft();
+                break;
+            default:
+                
+                break;
         }
     }
+
+    public void Walk()
+    {
+        player.transform.Translate(Vector3.forward * speed * Time.deltaTime);
+    }
+
+    public void TurnRight()
+    {
+        player.transform.Rotate(Vector3.up, 90f);
+    }
+
+    public void TurnLeft()
+    {
+        player.transform.Rotate(Vector3.up, -90f);
+    }
+    
 }

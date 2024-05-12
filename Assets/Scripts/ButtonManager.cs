@@ -43,6 +43,11 @@ public class ButtonManager : MonoBehaviour
         }
         
         Debug.Log(listNum);
+
+        for (int i = 0; i < blockManager.listOfLists.Count; i++)
+        {
+            blockManager.PlayBlock(blockManager.listOfLists[listNum].blockList[i]);
+        }
     }
     
     
