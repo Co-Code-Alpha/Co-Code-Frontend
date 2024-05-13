@@ -93,7 +93,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce2e43493c91c274395881b7debdcd62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blockData: {fileID: 11400000, guid: 23b67074eda27db48af69526e1bf2df7, type: 2}
+  blockData: {fileID: 11400000, guid: 34b3a1a423c1f48278bd64aa91c38193, type: 2}
 --- !u!114 &5511088415928306677
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -110,6 +110,7 @@ MonoBehaviour:
   isClicked: 0
   isAttaching: 0
   onWindow: 0
+  onTrash: 0
   divideCheck: 0
   attachPosition: {x: 0, y: 0, z: 0}
   blockManager: {fileID: 0}

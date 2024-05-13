@@ -93,7 +93,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce2e43493c91c274395881b7debdcd62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blockData: {fileID: 11400000, guid: 5f62030c1bdce44e884d08e7de15bf2e, type: 2}
+  blockData: {fileID: 11400000, guid: ba0d7cc7567594b8ca1e892d39defab2, type: 2}
 --- !u!114 &5511088415928306677
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -109,11 +109,17 @@ MonoBehaviour:
   isDropped: 0
   isClicked: 0
   isAttaching: 0
+  onWindow: 0
+  onTrash: 0
+  divideCheck: 0
   attachPosition: {x: 0, y: 0, z: 0}
   blockManager: {fileID: 0}
   blockColliderTop: {fileID: 0}
+  blockColliderBottom: {fileID: 0}
   blockScript: {fileID: 0}
   listIndex: 0
+  blockIndex: 0
+  prevIndex: 0
 --- !u!1 &875572835283723147
 GameObject:
   m_ObjectHideFlags: 0
@@ -384,6 +390,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isBottom: 0
+  otherBlock: {fileID: 0}
 --- !u!1 &7652206061043816804
 GameObject:
   m_ObjectHideFlags: 0
