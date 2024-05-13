@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: Turn Right
   m_EditorClassIdentifier: 
   name: Turn Right
-  num: 2
+  num: 203
+  description: "\uC624\uB978\uCABD \uBC29\uD5A5\uC73C\uB85C \uD68C\uC804\uD569\uB2C8\uB2E4."

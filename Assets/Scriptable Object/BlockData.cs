@@ -5,5 +5,6 @@ public class BlockData : ScriptableObject
 {
    
     public string name;
-    public int num;
+    public string num;
+    public string description;
 }
