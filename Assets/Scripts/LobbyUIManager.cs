@@ -22,6 +22,9 @@ public class LobbyUIManager : MonoBehaviour
     public GameObject[] editOnlyObjects;
     public GameObject editButton;
     private bool isEditMode = false;
+    public TMP_Text profileNicknameText;
+    public Image profileImage;
+    public Image profileBackground;
     [Header("Q&A Objects")]
     public TMP_InputField chatInput;
     public GameObject chatPrefab;
@@ -31,12 +34,18 @@ public class LobbyUIManager : MonoBehaviour
     public SliderManager effectMusicSlider;
     public Toggle codeSaveToggle;
     public Button resetButton;
-    
+    [Header("ETC")]
+    public Image userImage;
+    public TMP_Text userNickname;
     private GameObject currentPanel;
+
+    private ServerManager server;
     
     void Start()
     {
         currentPanel = profilePanel;
+        server = FindObjectOfType<ServerManager>();
+        server.ProfileRequest();
         
         ConnectOptionManager();
 
@@ -50,6 +59,13 @@ public class LobbyUIManager : MonoBehaviour
         currentPanel.SetActive(false);
         currentPanel = profilePanel;
         currentPanel.SetActive(true);
+    }
+
+    public void SetProfile(string nickname, string image, string background)
+    {
+        profileNicknameText.text = nickname;
+        profileImage.sprite = Resources.Load<Sprite>("Profile/Image/" + image);
+        profileBackground.sprite = Resources.Load<Sprite>("Profile/Background/" + background);
     }
 
     public void EnterEditMode()
@@ -81,6 +97,8 @@ public class LobbyUIManager : MonoBehaviour
         currentPanel.SetActive(false);
         currentPanel = shopPanel;
         currentPanel.SetActive(true);
+        
+        server.ShopRequest();
     }
     
     public void ManageStage()

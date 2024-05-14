@@ -255,6 +255,7 @@ public class DragDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDrag
         blockManager = FindObjectOfType<BlockManager>();
         blockColliderTop = FindObjectOfType<BlockColliderTop>();
         blockColliderBottom = FindObjectOfType<BlockColliderBottom>();
+        blockScript = GetComponent<Block>();
         codeWindow = GameObject.Find("Code Window Target");
     }
     
