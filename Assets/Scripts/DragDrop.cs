@@ -116,6 +116,7 @@ public class DragDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDrag
                 {
                     nextBottomBlock = nextCollider.otherBlock;
                 }
+                
                 Destroy(bottomBlock.gameObject);
                 bottomBlock = nextBottomBlock;
             }

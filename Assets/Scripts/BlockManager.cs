@@ -14,6 +14,8 @@ public class BlockManager : MonoBehaviour
 {
     public GameObject player;
     public float speed = 1f;
+    public Animator anim;
+    public Rigidbody playerRigidbody;
     
     [SerializeField]
     public List<BlockDataList> listOfLists = new List<BlockDataList>();
@@ -52,11 +54,12 @@ public class BlockManager : MonoBehaviour
         {
             return;
         }
-
+        
         switch (block.num)
         {
             case 1:
                 Walk();
+                anim.SetBool("isWalking", false);
                 break;
             case 2:
                 TurnRight();
@@ -72,8 +75,11 @@ public class BlockManager : MonoBehaviour
 
     public void Walk()
     {
-        player.transform.Translate(Vector3.forward * speed * Time.deltaTime);
+        anim.SetBool("isWalking", true);
+        Vector3 newPosition = playerRigidbody.position + player.transform.forward * speed * 10f;
+        playerRigidbody.MovePosition(newPosition);
     }
+
 
     public void TurnRight()
     {
@@ -84,5 +90,30 @@ public class BlockManager : MonoBehaviour
     {
         player.transform.Rotate(Vector3.up, -90f);
     }
-    
+
+    public void PickUp()
+    {
+        
+    }
+
+    public void Drop()
+    {
+        
+    }
+
+    public void If()
+    {
+        
+    }
+
+    public void Loop()
+    {
+        
+    }
+
+    private void Start()
+    {
+        anim = player.GetComponent<Animator>();
+        playerRigidbody = player.GetComponent<Rigidbody>();
+    }
 }
