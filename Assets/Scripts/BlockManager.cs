@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Collections;
 using Unity.VisualScripting;
 
 
@@ -13,7 +14,7 @@ public class BlockDataList
 public class BlockManager : MonoBehaviour
 {
     public GameObject player;
-    public float speed = 1f;
+    public float speed = 5f;
     public Animator anim;
     public Rigidbody playerRigidbody;
     
@@ -50,46 +51,114 @@ public class BlockManager : MonoBehaviour
 
     public void PlayBlock(BlockData block)
     {
+        StartCoroutine(ExecuteBlock(block));
+    }
+    
+    public IEnumerator PlayBlocks(List<BlockData> blocks)
+    {
+        for (int i = 0; i < blocks.Count; i++)
+        {
+            yield return StartCoroutine(ExecuteBlock(blocks[i]));
+        }
+    }
+
+    private IEnumerator ExecuteBlock(BlockData block)
+    {
         if (block == null)
         {
-            return;
+            yield break;
         }
-        
+
         switch (block.num)
         {
             case 1:
-                Walk();
-                anim.SetBool("isWalking", false);
+                yield return StartCoroutine(Walk());
                 break;
             case 2:
-                TurnRight();
+                yield return StartCoroutine(TurnRight());
                 break;
             case 3:
-                TurnLeft();
+                yield return StartCoroutine(TurnLeft());
                 break;
             default:
-                
                 break;
         }
     }
 
-    public void Walk()
+    private IEnumerator Walk()
     {
         anim.SetBool("isWalking", true);
-        Vector3 newPosition = playerRigidbody.position + player.transform.forward * speed * 10f;
-        playerRigidbody.MovePosition(newPosition);
+        Vector3 currentPosition = playerRigidbody.position;
+        Vector3 targetPosition = currentPosition + player.transform.forward * 1f;
+        
+        float distance = Vector3.Distance(currentPosition, targetPosition);
+        float duration = distance / speed;
+        
+        float elapsedTime = 0;
+
+        while (elapsedTime < duration)
+        {
+            playerRigidbody.MovePosition(Vector3.Lerp(currentPosition, targetPosition, elapsedTime / duration));
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        anim.SetBool("isWalking", false);
     }
 
-
-    public void TurnRight()
+    private IEnumerator TurnRight()
     {
-        player.transform.Rotate(Vector3.up, 90f);
+        anim.SetBool("rightTurn", true);
+        Quaternion fromRotation = player.transform.rotation;
+        Quaternion toRotation = player.transform.rotation * Quaternion.Euler(Vector3.up * 90f);
+        
+        float duration = 0.5f;
+        float elapsedTime = 0;
+
+        while (elapsedTime < duration)
+        {
+            player.transform.rotation = Quaternion.Slerp(fromRotation, toRotation, elapsedTime / duration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        anim.SetBool("rightTurn", false);
     }
 
-    public void TurnLeft()
+    private IEnumerator TurnLeft()
     {
-        player.transform.Rotate(Vector3.up, -90f);
+        anim.SetBool("leftTurn", true);
+        Quaternion fromRotation = player.transform.rotation;
+        Quaternion toRotation = player.transform.rotation * Quaternion.Euler(Vector3.up * -90f);
+        
+        float duration = 0.5f;
+        float elapsedTime = 0;
+
+        while (elapsedTime < duration)
+        {
+            player.transform.rotation = Quaternion.Slerp(fromRotation, toRotation, elapsedTime / duration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        anim.SetBool("leftTurn", false);
     }
+
+    private IEnumerator RotatePlayer(Vector3 axis, float angle, float duration)
+    {
+        Quaternion fromRotation = player.transform.rotation;
+        Quaternion toRotation = player.transform.rotation * Quaternion.Euler(axis * angle);
+
+        float elapsedTime = 0;
+
+        while (elapsedTime < duration)
+        {
+            player.transform.rotation = Quaternion.Slerp(fromRotation, toRotation, (elapsedTime / duration));
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        player.transform.rotation = toRotation;
+    }
+    
 
     public void PickUp()
     {

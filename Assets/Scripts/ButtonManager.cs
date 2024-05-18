@@ -6,6 +6,7 @@ public class ButtonManager : MonoBehaviour
 {
     public GameObject codeWindow;
     public BlockManager blockManager;
+    private Coroutine playCoroutine;
     
     public void ResetButton()
     {
@@ -44,10 +45,12 @@ public class ButtonManager : MonoBehaviour
         
         Debug.Log(listNum);
 
-        for (int i = 0; i < blockManager.listOfLists[listNum].blockList.Count; i++)
+        if (playCoroutine != null)
         {
-            blockManager.PlayBlock(blockManager.listOfLists[listNum].blockList[i]);
+            StopCoroutine(playCoroutine);
         }
+        
+        playCoroutine = StartCoroutine(blockManager.PlayBlocks(blockManager.listOfLists[listNum].blockList));
     }
     
     
