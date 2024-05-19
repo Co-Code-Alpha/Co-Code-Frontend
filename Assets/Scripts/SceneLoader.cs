@@ -12,19 +12,29 @@ public class SceneLoader : MonoBehaviour
 {
     public Image targetSlider;
     public TMP_Text targetText;
-    public string targetSceneName;
     public AsyncOperation op;
     public string tipFilePath;
+
+    public GameObject loadCompleteUI;
 
     void Start( )
     {
         SetRandomTip();
-        StartCoroutine( LoadScene( targetSceneName ) );
+        SceneHandler handler = FindObjectOfType<SceneHandler>();
+        StartCoroutine( LoadScene( handler.GetTargetScene() ) );
     }
 
     private void SetRandomTip()
     {
-        string[] lines = File.ReadAllLines(tipFilePath);
+        //string[] lines = File.ReadAllLines(tipFilePath);
+        TextAsset text = Resources.Load<TextAsset>("tips");
+        string[] lines = text.text.Split(new[] { '\r', '\n' }, System.StringSplitOptions.RemoveEmptyEntries);
+
+        // 배열의 내용을 출력합니다.
+        foreach (string line in lines)
+        {
+            Debug.Log(line);
+        }
 
         int randIdx = Random.Range(0, lines.Length);
         targetText.text = lines[randIdx];
@@ -57,20 +67,21 @@ public class SceneLoader : MonoBehaviour
                 {
                     yield return new WaitForSeconds( 1f );
                     // 로딩 완료 후
+                    loadCompleteUI.SetActive(true);
                     yield break;
                 }
             }
         }
     }
 
-    public IEnumerator MoveScene()
+    public void MoveScene()
     {
-        yield return new WaitForSeconds( 1f );
-        
-        // 애니메이션
-        
-        yield return new WaitForSeconds( 1f );
-        
+        StartCoroutine(SceneActivate());
+    }
+
+    public IEnumerator SceneActivate()
+    {
+        yield return null;
         op.allowSceneActivation = true;
     }
 }

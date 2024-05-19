@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using DG.Tweening;
 
 public class DragDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
 {
@@ -116,11 +117,26 @@ public class DragDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDrag
                 {
                     nextBottomBlock = nextCollider.otherBlock;
                 }
+                
                 Destroy(bottomBlock.gameObject);
                 bottomBlock = nextBottomBlock;
+                /*
+                var seq = DOTween.Sequence();
+                seq.Append(bottomBlock.DOScale(0.1f, 1f));
+                seq.Play().OnComplete(() =>
+                {
+                    
+                });*/
             }
     
-            Destroy(gameObject);
+            var seq2 = DOTween.Sequence();
+            seq2.Append(gameObject.transform.DOScale(0.1f, 1f));
+            seq2.Play().OnComplete(() =>
+            {
+                Destroy(gameObject);
+            });
+
+            return;
         }
         
         if (onWindow)
@@ -239,7 +255,8 @@ public class DragDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDrag
         blockManager = FindObjectOfType<BlockManager>();
         blockColliderTop = FindObjectOfType<BlockColliderTop>();
         blockColliderBottom = FindObjectOfType<BlockColliderBottom>();
-        codeWindow = GameObject.Find("Code Window");
+        blockScript = GetComponent<Block>();
+        codeWindow = GameObject.Find("Code Window Target");
     }
     
 }
