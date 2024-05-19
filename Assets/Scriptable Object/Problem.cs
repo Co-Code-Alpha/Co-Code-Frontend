@@ -11,7 +11,7 @@ public class Problem : ScriptableObject
     public class Reward
     {
         public int money;
-        public int[] items;
+        public string[] items;
     }
     
     public enum Category
