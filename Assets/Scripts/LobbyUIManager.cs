@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 using Michsky.MUIP;
@@ -193,5 +194,15 @@ public class LobbyUIManager : MonoBehaviour
         currentPanel.SetActive(false);
         currentPanel = searchPanel;
         currentPanel.SetActive(true);
+    }
+    
+    // ETC
+
+    public void TrySignOut()
+    {
+        PlayerPrefs.DeleteKey("token");
+        SceneHandler handler = FindObjectOfType<SceneHandler>();
+        handler.SetTargetScene("Title");
+        SceneManager.LoadScene("Load");
     }
 }

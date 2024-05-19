@@ -33,7 +33,7 @@ public class ServerManager : MonoBehaviour
         public string background;
         public string[] item;
     }
-    
+
     private string CreateJsonString(string[] keyValuePairs)
     {
         if (keyValuePairs.Length % 2 != 0)
@@ -128,12 +128,177 @@ public class ServerManager : MonoBehaviour
 
         SetLoadPanel("서버 응답 대기 중");
         yield return request.SendWebRequest();
-        Debug.Log(request.downloadHandler.text);
         DestroyLoadPanel();
+
+        if (request.responseCode == 201)
+        {
+            TitleUIManager uiManager = FindObjectOfType<TitleUIManager>();
+            uiManager.SignUpSuccess(nickname);
+        }
+        else
+        {
+            Debug.Log("회원가입 에러 발생");
+        }
+        
     }
     
     // ------------------------------
     
+    // ------------------------------
+    // 회원가입 중복 검사
+
+    public void SignUpCheckRequest(string userId, string password, string nickname, string email)
+    {
+        StartCoroutine(SignUpCheck(userId, password, nickname, email));
+    }
+
+    IEnumerator SignUpCheck(string id, string password, string nickname, string email)
+    {
+        PlayerPrefs.SetString("joinId", id);
+        PlayerPrefs.SetString("joinPw", password);
+        PlayerPrefs.SetString("joinNick", nickname);
+        PlayerPrefs.SetString("joinEmail", email);
+        
+        string[] pair = { "userId", id, "password", password, "nickname", nickname, "email", email };
+        string json = CreateJsonString(pair);
+        UnityWebRequest request = UnityWebRequest.PostWwwForm(url + "api/auth/checkJoin", json);
+        byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(json);
+        request.uploadHandler = (UploadHandler)new UploadHandlerRaw(jsonToSend);
+        request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
+        request.SetRequestHeader("Content-Type", "application/json");
+
+        SetLoadPanel("서버 응답 대기 중");
+        yield return request.SendWebRequest();
+        DestroyLoadPanel();
+
+        if (request.responseCode == 200)
+        {
+            Debug.Log("중복 X");
+            EmailAuthRequest(email, 0);
+        }
+        else
+        {
+            TitleUIManager uiManager = FindObjectOfType<TitleUIManager>();
+            uiManager.SetSignUpError("중복된 데이터가 존재합니다.");
+        }
+    }
+    
+    // ------------------------------
+
+    // ------------------------------
+    // 이메일 인증
+    // code 0 : 회원가입 시 인증
+    // code 1 : 비밀번호 변경 시 인증
+    
+    public void EmailAuthRequest(string email, int code)
+    {
+        StartCoroutine(EmailAuth(email, code));
+    }
+
+    IEnumerator EmailAuth(string email, int code)
+    {
+        string[] pair = { "email", email };
+        string json = CreateJsonString(pair);
+        UnityWebRequest request = UnityWebRequest.PostWwwForm(url + "api/auth/code", json);
+        byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(json);
+        request.uploadHandler = (UploadHandler)new UploadHandlerRaw(jsonToSend);
+        request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
+        request.SetRequestHeader("Content-Type", "application/json");
+
+        SetLoadPanel("서버 응답 대기 중");
+        yield return request.SendWebRequest();
+        DestroyLoadPanel();
+        
+        PlayerPrefs.SetString("authCode", request.downloadHandler.text);
+        TitleUIManager uiManager = FindObjectOfType<TitleUIManager>();
+
+        switch (code)
+        {
+            case 0 :
+                uiManager.SignUpEmailAuth(email);
+                break;
+            
+            case 1 :
+                uiManager.PwFindEmailAuthSuccess(email);
+                break;
+            
+            default :
+                break;
+        }
+    }
+
+    // ------------------------------
+
+    // ------------------------------
+    // 아이디 찾기
+
+    public void IdFindRequest(string email)
+    {
+        StartCoroutine(IdFind(email));
+    }
+
+    IEnumerator IdFind(string email)
+    {
+        string[] pair = { "email", email };
+        string json = CreateJsonString(pair);
+        UnityWebRequest request = UnityWebRequest.PostWwwForm(url + "api/auth/findId", json);
+        byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(json);
+        request.uploadHandler = (UploadHandler)new UploadHandlerRaw(jsonToSend);
+        request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
+        request.SetRequestHeader("Content-Type", "application/json");
+
+        SetLoadPanel("서버 응답 대기 중");
+        yield return request.SendWebRequest();
+        DestroyLoadPanel();
+
+        TitleUIManager uiManager = FindObjectOfType<TitleUIManager>();
+        
+        if (request.responseCode == 200)
+        {
+            uiManager.findBackground.SetActive(false);
+            uiManager.Alert(string.Format("해당 이메일로 등록된 ID는\n{0}입니다.", request.downloadHandler.text));
+        }
+        else
+        {
+            uiManager.IdFindError("등록되지 않은 이메일입니다.");
+        }
+    }
+    
+    // ------------------------------
+
+    // ------------------------------
+    // 비밀번호 변경
+
+    public void PwChangeRequest(string email, string password)
+    {
+        StartCoroutine(PwChange(email, password));
+    }
+
+    IEnumerator PwChange(string email, string password)
+    {
+        string[] pair = { "email", email, "password", password };
+        string json = CreateJsonString(pair);
+        UnityWebRequest request = UnityWebRequest.PostWwwForm(url + "api/auth/changePw", json);
+        byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(json);
+        request.uploadHandler = (UploadHandler)new UploadHandlerRaw(jsonToSend);
+        request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
+        request.SetRequestHeader("Content-Type", "application/json");
+
+        SetLoadPanel("서버 응답 대기 중");
+        yield return request.SendWebRequest();
+        DestroyLoadPanel();
+
+        TitleUIManager uiManager = FindObjectOfType<TitleUIManager>();
+        
+        if (request.responseCode == 200)
+        {
+            uiManager.findBackground.SetActive(false);
+            uiManager.Alert("비밀번호가 성공적으로 변경되었습니다.");
+        }
+    }
+    
+    // ------------------------------
+
     // ------------------------------
     // 프로필 요청
 
@@ -200,7 +365,6 @@ public class ServerManager : MonoBehaviour
     }
     
     // ------------------------------
-
     
     // ETC
 
