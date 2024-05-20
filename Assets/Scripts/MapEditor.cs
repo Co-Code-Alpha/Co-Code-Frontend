@@ -15,8 +15,9 @@ public class MapObject
     public string modelId;
 
     public bool isTile;
+    public bool isInteractable;
     
-    public MapObject(int x, int y, int z, int direction, string id, bool isTile)
+    public MapObject(int x, int y, int z, int direction, string id, bool isTile, bool isInteractable)
     {
         this.x = x;
         this.y = y;
@@ -24,6 +25,7 @@ public class MapObject
         this.direction = direction;
         this.modelId = id;
         this.isTile = isTile;
+        this.isInteractable = this.isInteractable;
     }
 
     public int GetX()
@@ -84,6 +86,16 @@ public class MapObject
     public void SetTile(bool isTile)
     {
         this.isTile = isTile;
+    }
+
+    public bool GetInteractable()
+    {
+        return isInteractable;
+    }
+
+    public void SetInteractable(bool isInteractable)
+    {
+        this.isInteractable = isInteractable;
     }
 }
 

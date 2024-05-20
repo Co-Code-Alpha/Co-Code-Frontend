@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,6 +12,21 @@ public class ServerManager : MonoBehaviour
     private string url = "http://13.209.99.100:3000/";
     public GameObject loadPanel;
     private GameObject loadInstance;
+
+    public DateTime ConvertDateTime(string target)
+    {
+        return DateTime.Parse(target, null, DateTimeStyles.RoundtripKind);
+    }
+    
+    public int GetWeekOfMonth(DateTime dt)
+    {
+        DateTime now = dt;
+        int basisWeekOfDay = (now.Day - 1) % 7;
+        int thisWeek = (int)now.DayOfWeek;
+        double val = Math.Ceiling((double)now.Day / 7);
+        if (basisWeekOfDay > thisWeek) val++;
+        return Convert.ToInt32(val);
+    }
     
     void Start()
     {
