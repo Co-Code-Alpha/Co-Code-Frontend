@@ -363,6 +363,35 @@ public class ServerManager : MonoBehaviour
     
     // ------------------------------
 
+    // ------------------------------
+    // Q&A 채팅 전송
+
+    public void QuestionChatRequest( string text )
+    {
+        StartCoroutine( QuestionChat( text ) );
+    }
+
+    IEnumerator QuestionChat( string text )
+    {
+        string[] pair = { "instruction", text };
+        string json = CreateJsonString(pair);
+        UnityWebRequest request = UnityWebRequest.PostWwwForm(url + "api/auth/changePw", json);
+        byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(json);
+        request.uploadHandler = (UploadHandler)new UploadHandlerRaw(jsonToSend);
+        request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
+        request.SetRequestHeader("Content-Type", "application/json");
+
+        SetLoadPanel("서버 응답 대기 중");
+        yield return request.SendWebRequest();
+        DestroyLoadPanel();
+
+        if (request.responseCode == 200)
+        {
+            
+        }
+    }
+    
+    // ------------------------------
     
     // ------------------------------
     // 회원 탈퇴

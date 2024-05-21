@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using TMPro;
 using Michsky.MUIP;
 using DG.Tweening;
+using Unity.VisualScripting;
 using UnityEngine.Timeline;
 
 public class LobbyUIManager : MonoBehaviour
@@ -30,6 +31,8 @@ public class LobbyUIManager : MonoBehaviour
     public TMP_InputField chatInput;
     public GameObject chatPrefab;
     public Transform chatContent;
+    public Button chatSubmitButton;
+    private Transform lastChat;
     [Header("Option Objects")]
     public SliderManager backgroundMusicSlider;
     public SliderManager effectMusicSlider;
@@ -50,7 +53,7 @@ public class LobbyUIManager : MonoBehaviour
         
         ConnectOptionManager();
 
-        CreateChat("kajdflkajsdflkjasdlkfajsakldjflakjdflkadsjflkasjdflkasjdfklasldfnaskldfjaklsdfjaklsejfdklasjdfklasjdklfsajdlkfasjdfklajsdfklajsdkflsajdfkljsdlkjajsdklfajsdflkajsdklfasjdflkajdsflkfdjdklgsjdlgkjasldkgjasldkgjasdlkgjaslkdgjsldkgjd");
+        InitChatInput( );
     }
 
     // PROFILE UI
@@ -132,22 +135,47 @@ public class LobbyUIManager : MonoBehaviour
     
     // Q&A UI
 
+    private void InitChatInput( )
+    {
+        chatInput.onSubmit.AddListener( ( string text ) =>
+        {
+            CreateChat( text, true );
+            chatInput.text = "";
+        } );
+        
+        chatSubmitButton.onClick.AddListener( ( ) =>
+        {
+            CreateChat( chatInput.text, true );
+            chatInput.text = "";
+        } );
+    }
+    
     public void SendChat()
     {
         ServerManager manager = FindObjectOfType<ServerManager>();
         string text = chatInput.text;
+        manager.QuestionChatRequest( text );
     }
 
-    public void CreateChat(string text)
+    public void CreateChat(string text, bool isUser)
     {
         GameObject chat = Instantiate(chatPrefab, chatContent);
         TMP_Text targetText = chat.transform.GetChild(1).GetComponent<TMP_Text>();
         targetText.text = text;
+        if (isUser)
+            chat.transform.GetChild( 0 ).GetComponent<Image>( ).sprite = profileImage.sprite;
         RectTransform rect = chat.GetComponent<RectTransform>();
 
         int charCount = targetText.text.Length;
         int lineCount = (int)Mathf.Ceil(charCount / 60f);
-        rect.sizeDelta = new Vector2(rect.sizeDelta.x, lineCount * 50f);
+        if (lineCount > 3)
+            rect.sizeDelta = new Vector2(rect.sizeDelta.x, lineCount * 50f);
+
+        Image background = chat.GetComponent<Image>( );
+        Image icon = chat.transform.GetChild( 0 ).GetComponent<Image>( );
+        background.DOFade( 100 / 255f, 1f );
+        icon.DOFade( 1f, 1f );
+        targetText.DOFade( 1f, 1f );
     }
     
     // OPTION UI
