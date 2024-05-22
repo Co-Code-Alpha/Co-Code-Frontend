@@ -33,6 +33,11 @@ public class LobbyUIManager : MonoBehaviour
     public Transform chatContent;
     public Button chatSubmitButton;
     private Transform lastChat;
+    [Header("Ranking Objects")] public Button rankingButton;
+    public Transform rankingContent;
+    public GameObject rankingObject;
+    public Transform challengeRankingContent;
+    public GameObject challengeRankingObject;
     [Header("Option Objects")]
     public SliderManager backgroundMusicSlider;
     public SliderManager effectMusicSlider;
@@ -54,6 +59,7 @@ public class LobbyUIManager : MonoBehaviour
         ConnectOptionManager();
 
         InitChatInput( );
+        InitRanking();
     }
 
     // PROFILE UI
@@ -139,12 +145,14 @@ public class LobbyUIManager : MonoBehaviour
     {
         chatInput.onSubmit.AddListener( ( string text ) =>
         {
+            SendChat();
             CreateChat( text, true );
             chatInput.text = "";
         } );
         
         chatSubmitButton.onClick.AddListener( ( ) =>
         {
+            SendChat();
             CreateChat( chatInput.text, true );
             chatInput.text = "";
         } );
@@ -176,6 +184,29 @@ public class LobbyUIManager : MonoBehaviour
         background.DOFade( 100 / 255f, 1f );
         icon.DOFade( 1f, 1f );
         targetText.DOFade( 1f, 1f );
+    }
+    
+    // RANKING UI
+
+    public void InitRanking()
+    {
+        ServerManager manager = FindObjectOfType<ServerManager>();
+        rankingButton.onClick.AddListener(() =>
+        {
+            manager.RankingRequest();
+        });
+    }
+
+    public void SetRanking(ServerManager.Rank[] rank)
+    {
+        foreach (ServerManager.Rank r in rank)
+        {
+            GameObject rankInstance = Instantiate(rankingObject, rankingContent);
+            rankInstance.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("Profile/Image/" + r.profileId);
+            rankInstance.transform.GetChild(1).GetComponent<TMP_Text>().text = r.nickname;
+            rankInstance.transform.GetChild(2).GetComponent<TMP_Text>().text = r.rank.ToString();
+            rankInstance.transform.GetChild(3).GetComponent<TMP_Text>().text = r.clearedProblems.ToString() + "문제 해결";
+        }
     }
     
     // OPTION UI

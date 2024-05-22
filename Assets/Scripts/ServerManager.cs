@@ -366,6 +366,12 @@ public class ServerManager : MonoBehaviour
     // ------------------------------
     // Q&A 채팅 전송
 
+    [Serializable]
+    public class ChatData
+    {
+        public string generated_text;
+    }
+
     public void QuestionChatRequest( string text )
     {
         StartCoroutine( QuestionChat( text ) );
@@ -375,7 +381,7 @@ public class ServerManager : MonoBehaviour
     {
         string[] pair = { "instruction", text };
         string json = CreateJsonString(pair);
-        UnityWebRequest request = UnityWebRequest.PostWwwForm(url + "api/auth/changePw", json);
+        UnityWebRequest request = UnityWebRequest.PostWwwForm("https://9589-34-124-203-232.ngrok-free.app/generate", json);
         byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(json);
         request.uploadHandler = (UploadHandler)new UploadHandlerRaw(jsonToSend);
         request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
@@ -387,9 +393,50 @@ public class ServerManager : MonoBehaviour
 
         if (request.responseCode == 200)
         {
-            
+            ChatData data = JsonUtility.FromJson<ChatData>(request.downloadHandler.text);
+            FindObjectOfType<LobbyUIManager>().CreateChat(data.generated_text, false);
         }
     }
+    
+    // ------------------------------
+    
+    // ------------------------------
+    // 누적 랭킹
+
+    [Serializable]
+    public class Rank
+    {
+        public int rank;
+        public string nickname;
+        public string profileId;
+        public int clearedProblems;
+    }
+
+    [Serializable]
+    public class RankResponse
+    {
+        public List<Rank> rank;
+    }
+
+    public void RankingRequest()
+    {
+        StartCoroutine(Ranking());
+    }
+
+    IEnumerator Ranking()
+    {
+        UnityWebRequest request = UnityWebRequest.Get(url + "api/lobby/rank");
+        request.SetRequestHeader("Authorization", "Bearer " + PlayerPrefs.GetString("token"));
+        request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
+        
+        SetLoadPanel("서버 응답 대기 중");
+        yield return request.SendWebRequest();
+        DestroyLoadPanel();
+        
+        RankResponse rankResponse = JsonUtility.FromJson<RankResponse>(request.downloadHandler.text);
+        FindObjectOfType<LobbyUIManager>().SetRanking(rankResponse.rank.ToArray());
+    }
+    
     
     // ------------------------------
     
