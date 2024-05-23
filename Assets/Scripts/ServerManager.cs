@@ -342,6 +342,12 @@ public class ServerManager : MonoBehaviour
 
     // ------------------------------
     // 상점 불러오기
+    
+    public class ShopResult
+    {
+        public int money;
+        public string[] item;
+    }
 
     public void ShopRequest()
     {
@@ -357,8 +363,12 @@ public class ServerManager : MonoBehaviour
         SetLoadPanel("서버 응답 대기 중");
         yield return request.SendWebRequest();
         DestroyLoadPanel();
-        
-        Debug.Log(request.downloadHandler.text);
+
+        if (request.responseCode == 200)
+        {
+            ShopResult result = JsonUtility.FromJson<ShopResult>(request.downloadHandler.text);
+            FindObjectOfType<LobbyUIManager>().OpenShop(result);
+        }
     }
     
     // ------------------------------
@@ -437,9 +447,84 @@ public class ServerManager : MonoBehaviour
         FindObjectOfType<LobbyUIManager>().SetRanking(rankResponse.rank.ToArray());
     }
     
-    
     // ------------------------------
     
+    // ------------------------------
+    // 프로필 검색
+
+    [Serializable]
+    public class Search
+    {
+        public string nickname;
+        public string profile;
+    }
+
+    [Serializable]
+    public class SearchResponse
+    {
+        public Search[] users;
+    }
+
+    public void SearchProfileRequest(string user)
+    {
+        StartCoroutine(SearchProfile(user));
+    }
+
+    IEnumerator SearchProfile(string user)
+    {
+        UnityWebRequest request = UnityWebRequest.Get(url + "api/lobby/search?nickname=" + user);
+        request.SetRequestHeader("Authorization", "Bearer " + PlayerPrefs.GetString("token"));
+        request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
+        
+        SetLoadPanel("서버 응답 대기 중");
+        yield return request.SendWebRequest();
+        DestroyLoadPanel();
+
+        if (request.responseCode == 200)
+        {
+            SearchResponse response = JsonUtility.FromJson<SearchResponse>("{\"users\":" + request.downloadHandler.text + "}");
+            FindObjectOfType<LobbyUIManager>().SetSearchResult(response.users, user);
+        }
+    }
+    
+    // ------------------------------
+
+    // ------------------------------
+    // 타 유저 프로필
+
+    [Serializable]
+    public class OtherUser
+    {
+        public string nickname;
+        public string profile;
+        public string background;
+    }
+
+    public void SearchedUserProfileRequest(string nickname)
+    {
+        StartCoroutine(SearchedUserProfile(nickname));
+    }
+
+    IEnumerator SearchedUserProfile(string nickname)
+    {
+        UnityWebRequest request = UnityWebRequest.Get(url + "api/lobby/othersProfile?nickname=" + nickname);
+        request.SetRequestHeader("Authorization", "Bearer " + PlayerPrefs.GetString("token"));
+        request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
+        
+        SetLoadPanel("서버 응답 대기 중");
+        yield return request.SendWebRequest();
+        DestroyLoadPanel();
+
+        if (request.responseCode == 200)
+        {
+            OtherUser user = JsonUtility.FromJson<OtherUser>(request.downloadHandler.text);
+            FindObjectOfType<LobbyUIManager>().SetProfile(user.nickname, user.profile, user.background);
+            FindObjectOfType<LobbyUIManager>().ManageProfile();
+        }
+    }
+    
+    // ------------------------------
+
     // ------------------------------
     // 회원 탈퇴
 

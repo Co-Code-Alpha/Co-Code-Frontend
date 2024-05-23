@@ -21,12 +21,17 @@ public class LobbyUIManager : MonoBehaviour
     public GameObject optionPanel;
     public GameObject searchPanel;
     [Header("Profile Objects")]
+    public Button profileButton;
     public GameObject[] editOnlyObjects;
     public GameObject editButton;
     private bool isEditMode = false;
     public TMP_Text profileNicknameText;
     public Image profileImage;
     public Image profileBackground;
+    [Header("Shop Objects")]
+    public TMP_Text moneyText;
+    public Transform profileIconContent;
+    public GameObject profileIconObject;
     [Header("Q&A Objects")]
     public TMP_InputField chatInput;
     public GameObject chatPrefab;
@@ -43,6 +48,11 @@ public class LobbyUIManager : MonoBehaviour
     public SliderManager effectMusicSlider;
     public Toggle codeSaveToggle;
     public Button resetButton;
+    [Header("Search Objects")]
+    public TMP_InputField userSearchInputField;
+    public TMP_Text searchResultText;
+    public Transform searchResultContent;
+    public GameObject searchResultObject;
     [Header("ETC")]
     public Image userImage;
     public TMP_Text userNickname;
@@ -60,9 +70,19 @@ public class LobbyUIManager : MonoBehaviour
 
         InitChatInput( );
         InitRanking();
+        InitSearch();
+        InitProfile();
     }
 
     // PROFILE UI
+
+    public void InitProfile()
+    {
+        profileButton.onClick.AddListener(() =>
+        {
+            server.ProfileRequest();
+        });
+    }
     
     public void ManageProfile()
     {
@@ -73,6 +93,7 @@ public class LobbyUIManager : MonoBehaviour
 
     public void SetProfile(string nickname, string image, string background)
     {
+        Debug.Log(nickname + " / " + image + " / " + background);
         profileNicknameText.text = nickname;
         profileImage.sprite = Resources.Load<Sprite>("Profile/Image/" + image);
         profileBackground.sprite = Resources.Load<Sprite>("Profile/Background/" + background);
@@ -102,15 +123,6 @@ public class LobbyUIManager : MonoBehaviour
             obj.SetActive(isEditMode);
     }
     
-    public void ManageShop()
-    {
-        currentPanel.SetActive(false);
-        currentPanel = shopPanel;
-        currentPanel.SetActive(true);
-        
-        server.ShopRequest();
-    }
-    
     public void ManageStage()
     {
         currentPanel.SetActive(false);
@@ -125,21 +137,73 @@ public class LobbyUIManager : MonoBehaviour
         currentPanel.SetActive(true);
     }
     
+    // SHOP UI
+    
+    public void ManageShop()
+    {
+        currentPanel.SetActive(false);
+        currentPanel = shopPanel;
+        currentPanel.SetActive(true);
+        
+        server.ShopRequest();
+    }
+
+    public void OpenShop(ServerManager.ShopResult result)
+    {
+        moneyText.text = result.money + "코인 보유 중";
+
+        Item[] profiles = Resources.LoadAll<Item>("Items/ProfileImage");
+        Item[] backgrounds = Resources.LoadAll<Item>("Items/ProfileBackground");
+        Item[] items = Resources.LoadAll<Item>("Items/UsableItem");
+
+        for (int i = profileIconContent.childCount - 1; i >= 0; i--)
+        {
+            Transform child = profileIconContent.GetChild(i);
+            Destroy(child.gameObject);
+        }
+        
+        foreach (Item item in profiles)
+        {
+            GameObject profileIconInstance = Instantiate(profileIconObject, profileIconContent);
+            Transform t = profileIconInstance.transform;
+            t.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("Profile/Image/" + item.id);
+            t.GetChild(1).GetComponent<TMP_Text>().text = item.name;
+
+            bool isHave = false;
+            foreach (string target in result.item)
+            {
+                if (target == item.id)
+                {
+                    isHave = true;
+                    t.GetChild(2).GetComponent<Image>().color = new Color(99 / 255f, 123 / 255f, 157 / 255f);
+                    t.GetChild(2).GetChild(0).GetComponent<TMP_Text>().text = "보유 중";
+                }
+            }
+
+            if (!isHave)
+            {
+                t.GetChild(2).GetComponent<Image>().color = new Color(141 / 255f, 189 / 255f, 255 / 255f);
+                t.GetChild(2).GetChild(0).GetComponent<TMP_Text>().text = item.price.ToString();
+            }
+        }
+    }
+
+    private bool isHaveItem(Item[] items, string target)
+    {
+        foreach (Item item in items)
+            if (item.id == target) return true;
+
+        return false;
+    }
+    
+    // Q&A UI
+    
     public void ManageQuestion()
     {
         currentPanel.SetActive(false);
         currentPanel = questionPanel;
         currentPanel.SetActive(true);
     }
-    
-    public void ManageRanking()
-    {
-        currentPanel.SetActive(false);
-        currentPanel = rankingPanel;
-        currentPanel.SetActive(true);
-    }
-    
-    // Q&A UI
 
     private void InitChatInput( )
     {
@@ -187,6 +251,13 @@ public class LobbyUIManager : MonoBehaviour
     }
     
     // RANKING UI
+    
+    public void ManageRanking()
+    {
+        currentPanel.SetActive(false);
+        currentPanel = rankingPanel;
+        currentPanel.SetActive(true);
+    }
 
     public void InitRanking()
     {
@@ -248,11 +319,50 @@ public class LobbyUIManager : MonoBehaviour
         codeSaveToggle.isOn = true;
     }
     
+    // SEARCH UI
+    
     public void ManageSearch()
     {
         currentPanel.SetActive(false);
         currentPanel = searchPanel;
         currentPanel.SetActive(true);
+    }
+
+    public void InitSearch()
+    {
+        userSearchInputField.onSubmit.AddListener( ( string text ) =>
+        {
+            ManageSearch();
+            SearchUser( text );
+        } );
+    }
+
+    public void SearchUser(string user)
+    {
+        FindObjectOfType<ServerManager>().SearchProfileRequest(user);
+    }
+
+    public void SetSearchResult(ServerManager.Search[] search, string user)
+    {
+        searchResultText.text = user + " 검색 결과";
+        
+        for (int i = searchResultContent.childCount - 1; i >= 0; i--)
+        {
+            Transform child = searchResultContent.GetChild(i);
+            Destroy(child.gameObject);
+        }
+        
+        foreach (ServerManager.Search s in search)
+        {
+            GameObject searchInstance = Instantiate(searchResultObject, searchResultContent);
+            searchInstance.transform.GetChild(0).GetComponent<Image>().sprite =
+                Resources.Load<Sprite>("Profile/Image/" + s.profile);
+            searchInstance.transform.GetChild(1).GetComponent<TMP_Text>().text = s.nickname;
+            searchInstance.GetComponent<Button>().onClick.AddListener(() =>
+            {
+                server.SearchedUserProfileRequest(s.nickname);
+            });
+        }
     }
     
     // ETC
