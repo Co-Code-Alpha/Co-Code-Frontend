@@ -32,6 +32,7 @@ public class LobbyUIManager : MonoBehaviour
     public TMP_Text moneyText;
     public Transform profileIconContent;
     public GameObject profileIconObject;
+    public GameObject alertPanel;
     [Header("Q&A Objects")]
     public TMP_InputField chatInput;
     public GameObject chatPrefab;
@@ -151,6 +152,7 @@ public class LobbyUIManager : MonoBehaviour
     public void OpenShop(ServerManager.ShopResult result)
     {
         moneyText.text = result.money + "코인 보유 중";
+        int currentMoney = result.money;
 
         Item[] profiles = Resources.LoadAll<Item>("Items/ProfileImage");
         Item[] backgrounds = Resources.LoadAll<Item>("Items/ProfileBackground");
@@ -184,16 +186,20 @@ public class LobbyUIManager : MonoBehaviour
             {
                 t.GetChild(2).GetComponent<Image>().color = new Color(141 / 255f, 189 / 255f, 255 / 255f);
                 t.GetChild(2).GetChild(0).GetComponent<TMP_Text>().text = item.price.ToString();
+                t.GetChild(2).GetComponent<Button>().onClick.AddListener(() =>
+                {
+                    if (currentMoney < item.price) return;
+                    server.ItemPurchaseRequest(item.id, item.name);
+                });
             }
         }
     }
 
-    private bool isHaveItem(Item[] items, string target)
+    public void SetPurchaseResult(string item, string money)
     {
-        foreach (Item item in items)
-            if (item.id == target) return true;
-
-        return false;
+        alertPanel.SetActive(true);
+        alertPanel.transform.GetChild(0).GetComponent<TMP_Text>().text = item + "\n구매가 완료되었습니다!";
+        alertPanel.transform.GetChild(1).GetComponent<TMP_Text>().text = "잔액 : " + money + "코인";
     }
     
     // Q&A UI

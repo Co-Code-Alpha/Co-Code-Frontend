@@ -372,6 +372,44 @@ public class ServerManager : MonoBehaviour
     }
     
     // ------------------------------
+    
+    // ------------------------------
+    // 상점 아이템 구매
+
+    [Serializable]
+    public class PurchaseResult
+    {
+        public int money;
+    }
+
+    public void ItemPurchaseRequest(string itemId, string itemName)
+    {
+        StartCoroutine(ItemPurchase(itemId, itemName));
+    }
+
+    IEnumerator ItemPurchase(string itemId, string itemName)
+    {
+        string[] pair = { "itemId", itemId };
+        string json = CreateJsonString(pair);
+        UnityWebRequest request = UnityWebRequest.PostWwwForm(url + "api/lobby/buy", json);
+        request.SetRequestHeader("Authorization", "Bearer " + PlayerPrefs.GetString("token"));
+        byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(json);
+        request.uploadHandler = (UploadHandler)new UploadHandlerRaw(jsonToSend);
+        request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
+        request.SetRequestHeader("Content-Type", "application/json");
+
+        SetLoadPanel("서버 응답 대기 중");
+        yield return request.SendWebRequest();
+        DestroyLoadPanel();
+
+        if (request.responseCode == 200)
+        {
+            PurchaseResult result = JsonUtility.FromJson<PurchaseResult>(request.downloadHandler.text);
+            FindObjectOfType<LobbyUIManager>().SetPurchaseResult(itemName, result.money.ToString());
+        }
+    }
+    
+    // ------------------------------
 
     // ------------------------------
     // Q&A 채팅 전송
@@ -391,7 +429,7 @@ public class ServerManager : MonoBehaviour
     {
         string[] pair = { "instruction", text };
         string json = CreateJsonString(pair);
-        UnityWebRequest request = UnityWebRequest.PostWwwForm("https://9589-34-124-203-232.ngrok-free.app/generate", json);
+        UnityWebRequest request = UnityWebRequest.PostWwwForm("https://3968-34-67-204-65.ngrok-free.app/generate", json);
         byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(json);
         request.uploadHandler = (UploadHandler)new UploadHandlerRaw(jsonToSend);
         request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
