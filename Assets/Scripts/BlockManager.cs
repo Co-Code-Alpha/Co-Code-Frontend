@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.Collections;
+using TMPro;
+using UnityEngine.UI;
 using Unity.VisualScripting;
 
 
@@ -17,9 +19,22 @@ public class BlockManager : MonoBehaviour
     public float speed = 5f;
     public Animator anim;
     public Rigidbody playerRigidbody;
+
+    public bool isLoop = false;
+
+    public int loopTime = 1;
     
     [SerializeField]
     public List<BlockDataList> listOfLists = new List<BlockDataList>();
+
+    [SerializeField] 
+    public List<BlockData> loopList = new List<BlockData>();
+    
+    private void Start()
+    {
+        anim = player.GetComponent<Animator>();
+        playerRigidbody = player.GetComponent<Rigidbody>();
+    }
 
     public void MakeList(BlockData blockData)
     {
@@ -58,6 +73,10 @@ public class BlockManager : MonoBehaviour
     {
         for (int i = 0; i < blocks.Count; i++)
         {
+            if (isLoop)
+            {
+                loopList.Add(blocks[i]);
+            }
             yield return StartCoroutine(ExecuteBlock(blocks[i]));
         }
     }
@@ -80,9 +99,27 @@ public class BlockManager : MonoBehaviour
             case 3:
                 yield return StartCoroutine(TurnLeft());
                 break;
+            case 4 :
+                isLoop = true;
+                loopTime = block.loopTime;
+                break;
+            case 5 :
+                isLoop = false;
+                for (int i = 0; i < loopTime; i++)
+                {
+                    for (int j = 0; j < loopList.Count; j++)
+                    {
+                        StartCoroutine(ExecuteBlock(loopList[j]));
+                    }
+                }
+
+                loopTime = 1;
+                loopList.Clear();
+                break;
             default:
                 break;
         }
+        
     }
 
     private IEnumerator Walk()
@@ -178,11 +215,5 @@ public class BlockManager : MonoBehaviour
     public void Loop()
     {
         
-    }
-
-    private void Start()
-    {
-        anim = player.GetComponent<Animator>();
-        playerRigidbody = player.GetComponent<Rigidbody>();
     }
 }
