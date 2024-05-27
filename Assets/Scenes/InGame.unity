@@ -156,7 +156,10 @@ MonoBehaviour:
   speed: 1
   anim: {fileID: 0}
   playerRigidbody: {fileID: 0}
+  isLoop: 0
+  loopTime: 0
   listOfLists: []
+  loopList: []
 --- !u!4 &19392311
 Transform:
   m_ObjectHideFlags: 0
