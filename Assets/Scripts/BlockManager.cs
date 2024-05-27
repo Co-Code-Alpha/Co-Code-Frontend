@@ -111,17 +111,18 @@ public class BlockManager : MonoBehaviour
                 loopTime = Int32.Parse(block.GetComponent<Block>().loopTime.text);
                 break;
             case 5 :
-                Debug.Log("SIUUUUU");
                 for (int i = 0; i < loopTime; i++)
                 {
+                    Debug.Log("SIUUUUU");
+
                     for (int j = 0; j < loopList.Count; j++)
                     {
-                        StartCoroutine(ExecuteBlock(loopList[j]));
+                        yield return StartCoroutine(ExecuteBlock(loopList[j])); 
                     }
                 }
-                //isLoop = false;
-                //loopTime = 1;
-                //loopList.Clear();
+                isLoop = false;
+                loopTime = 1;
+                loopList.Clear();
                 break;
             default:
                 break;
