@@ -51,7 +51,6 @@ public class BlockManager : MonoBehaviour
     {
         List<GameObject> newList = listOfLists[b].blockList.GetRange(n,listOfLists[b].blockList.Count - n);
         listOfLists[a].blockList.AddRange(newList);
-        Debug.Log(n);
         listOfLists[b].blockList.RemoveRange(n, listOfLists[b].blockList.Count - n);    
     }
     
@@ -73,7 +72,8 @@ public class BlockManager : MonoBehaviour
     {
         for (int i = 0; i < blocks.Count; i++)
         {
-            if (isLoop)
+            Debug.Log(blocks[i].GetComponent<Block>().blockData.num);
+            if (isLoop && blocks[i].GetComponent<Block>().blockData.num != 5)
             {
                 loopList.Add(blocks[i]);
             }
@@ -105,11 +105,13 @@ public class BlockManager : MonoBehaviour
                 yield return StartCoroutine(TurnLeft());
                 break;
             case 4 :
+                Debug.Log(Int32.Parse(block.GetComponent<Block>().loopTime.text));
+
                 isLoop = true;
                 loopTime = Int32.Parse(block.GetComponent<Block>().loopTime.text);
                 break;
             case 5 :
-                isLoop = false;
+                Debug.Log("SIUUUUU");
                 for (int i = 0; i < loopTime; i++)
                 {
                     for (int j = 0; j < loopList.Count; j++)
@@ -117,9 +119,9 @@ public class BlockManager : MonoBehaviour
                         StartCoroutine(ExecuteBlock(loopList[j]));
                     }
                 }
-
-                loopTime = 1;
-                loopList.Clear();
+                //isLoop = false;
+                //loopTime = 1;
+                //loopList.Clear();
                 break;
             default:
                 break;
