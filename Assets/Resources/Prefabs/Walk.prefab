@@ -117,7 +117,7 @@ MonoBehaviour:
   blockManager: {fileID: 0}
   blockColliderTop: {fileID: 0}
   blockColliderBottom: {fileID: 0}
-  blockScript: {fileID: 0}
+  blockScript: {fileID: 2825852740101922208}
   listIndex: 0
   blockIndex: 0
   prevIndex: 0

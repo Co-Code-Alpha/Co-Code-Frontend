@@ -170,6 +170,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blockData: {fileID: 11400000, guid: 0a1debf8b93564c29a2254e23ddb8780, type: 2}
+  loopTime: {fileID: 0}
 --- !u!114 &5511088415928306677
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -192,7 +193,7 @@ MonoBehaviour:
   blockManager: {fileID: 0}
   blockColliderTop: {fileID: 0}
   blockColliderBottom: {fileID: 0}
-  blockScript: {fileID: 0}
+  blockScript: {fileID: 2825852740101922208}
   listIndex: 0
   blockIndex: 0
   prevIndex: 0
