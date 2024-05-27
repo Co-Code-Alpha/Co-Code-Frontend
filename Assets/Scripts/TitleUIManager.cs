@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine.SceneManagement;
 
 public class TitleUIManager : MonoBehaviour
@@ -61,6 +62,64 @@ public class TitleUIManager : MonoBehaviour
     {
         server = FindObjectOfType<ServerManager>();
         signUpButton.onClick.AddListener(TrySignUp);
+        GetAllButtons();
+    }
+
+    private void GetAllButtons()
+    {
+        List<GameObject> rootObjects = new List<GameObject>();
+        Scene scene = SceneManager.GetActiveScene();
+        scene.GetRootGameObjects(rootObjects);
+
+        foreach (GameObject rootObject in rootObjects)
+        {
+            Button button = FindButtonInChildren(rootObject);
+            if (button != null)
+            {
+                button.gameObject.AddComponent<AudioSource>();
+                AudioSource audio = button.GetComponent<AudioSource>();
+                audio.clip = Resources.Load<AudioClip>("Sounds/buttonSound");
+                audio.playOnAwake = false;
+                button.onClick.AddListener(() =>
+                {
+                    audio.Play();
+                });
+            }
+        }
+    }
+    
+    private Button FindButtonInChildren(GameObject parent)
+    {
+        Button button = parent.GetComponent<Button>();
+        if (button != null)
+        {
+            button.gameObject.AddComponent<AudioSource>();
+            AudioSource audio = button.GetComponent<AudioSource>();
+            audio.clip = Resources.Load<AudioClip>("Sounds/buttonSound");
+            audio.playOnAwake = false;
+            button.onClick.AddListener(() =>
+            {
+                audio.Play();
+            });
+        }
+
+        foreach (Transform child in parent.transform)
+        {
+            button = FindButtonInChildren(child.gameObject);
+            if (button != null)
+            {
+                button.gameObject.AddComponent<AudioSource>();
+                AudioSource audio = button.GetComponent<AudioSource>();
+                audio.clip = Resources.Load<AudioClip>("Sounds/buttonSound");
+                audio.playOnAwake = false;
+                button.onClick.AddListener(() =>
+                {
+                    audio.Play();
+                });
+            }
+        }
+
+        return null;
     }
 
     void Update()
