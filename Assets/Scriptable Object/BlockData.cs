@@ -5,5 +5,4 @@ public class BlockData : ScriptableObject
 {
     public string name;
     public int num;
-    public int loopTime;
 }

@@ -136,13 +136,13 @@ public class DragDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDrag
                     coppiedBlock.transform.position = attachPosition;
                     coppiedBlock.GetComponent<DragDrop>().listIndex = listIndex;
                     Debug.Log(coppiedBlock.GetComponent<DragDrop>().listIndex);
-                    blockManager.AddBlock(coppiedBlock.GetComponent<DragDrop>().listIndex, blockScript.blockData);
+                    blockManager.AddBlock(coppiedBlock.GetComponent<DragDrop>().listIndex, coppiedBlock.gameObject);
                 }
                 else
                 {
                     coppiedBlock.transform.position = eventData.position;
                     BlockData blockData = coppiedBlock.GetComponent<Block>().blockData;
-                    blockManager.MakeList(blockData);
+                    blockManager.MakeList(coppiedBlock.gameObject);
                     coppiedBlock.GetComponent<DragDrop>().listIndex = blockManager.listOfLists.Count-1;
                 }
                 coppiedBlock.GetComponent<DragDrop>().blockIndex = blockManager.listOfLists[coppiedBlock.GetComponent<DragDrop>().listIndex].blockList

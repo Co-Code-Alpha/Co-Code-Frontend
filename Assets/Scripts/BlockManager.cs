@@ -8,15 +8,15 @@ using Unity.VisualScripting;
 
 
 [Serializable]
-public class BlockDataList
+public class BlockList
 {
-    public List<BlockData> blockList = new List<BlockData>();
+    public List<GameObject> blockList = new List<GameObject>();
 }
 
 public class BlockManager : MonoBehaviour
 {
     public GameObject player;
-    public float speed = 5f;
+    public float speed = 3f;
     public Animator anim;
     public Rigidbody playerRigidbody;
 
@@ -25,10 +25,10 @@ public class BlockManager : MonoBehaviour
     public int loopTime = 1;
     
     [SerializeField]
-    public List<BlockDataList> listOfLists = new List<BlockDataList>();
+    public List<BlockList> listOfLists = new List<BlockList>();
 
     [SerializeField] 
-    public List<BlockData> loopList = new List<BlockData>();
+    public List<GameObject> loopList = new List<GameObject>();
     
     private void Start()
     {
@@ -36,20 +36,20 @@ public class BlockManager : MonoBehaviour
         playerRigidbody = player.GetComponent<Rigidbody>();
     }
 
-    public void MakeList(BlockData blockData)
+    public void MakeList(GameObject block)
     {
-        BlockDataList newList = new BlockDataList();
-        newList.blockList.Add(blockData);
+        BlockList newList = new BlockList();
+        newList.blockList.Add(block);
         listOfLists.Add(newList);
     }
-    public void AddBlock(int a, BlockData block)
+    public void AddBlock(int a, GameObject block)
     {
         listOfLists[a].blockList.Add(block);
     }
 
     public void AddList(int a, int b, int n)
     {
-        List<BlockData> newList = listOfLists[b].blockList.GetRange(n,listOfLists[b].blockList.Count - n);
+        List<GameObject> newList = listOfLists[b].blockList.GetRange(n,listOfLists[b].blockList.Count - n);
         listOfLists[a].blockList.AddRange(newList);
         Debug.Log(n);
         listOfLists[b].blockList.RemoveRange(n, listOfLists[b].blockList.Count - n);    
@@ -57,19 +57,19 @@ public class BlockManager : MonoBehaviour
     
     public void DivideList(int a, int n)
     {
-        List<BlockData> newList = listOfLists[a].blockList.GetRange(n,listOfLists[a].blockList.Count - n);
-        BlockDataList newBlockDataList = new BlockDataList();
+        List<GameObject> newList = listOfLists[a].blockList.GetRange(n,listOfLists[a].blockList.Count - n);
+        BlockList newBlockDataList = new BlockList();
         newBlockDataList.blockList = newList;
         listOfLists.Add(newBlockDataList);
         listOfLists[a].blockList.RemoveRange(n, listOfLists[a].blockList.Count - n);
     }
 
-    public void PlayBlock(BlockData block)
+    public void PlayBlock(GameObject block)
     {
         StartCoroutine(ExecuteBlock(block));
     }
     
-    public IEnumerator PlayBlocks(List<BlockData> blocks)
+    public IEnumerator PlayBlocks(List<GameObject> blocks)
     {
         for (int i = 0; i < blocks.Count; i++)
         {
@@ -77,18 +77,21 @@ public class BlockManager : MonoBehaviour
             {
                 loopList.Add(blocks[i]);
             }
-            yield return StartCoroutine(ExecuteBlock(blocks[i]));
+            else
+            {
+                yield return StartCoroutine(ExecuteBlock(blocks[i]));
+            }
         }
     }
 
-    private IEnumerator ExecuteBlock(BlockData block)
+    private IEnumerator ExecuteBlock(GameObject block)
     {
         if (block == null)
         {
             yield break;
         }
-
-        switch (block.num)
+        
+        switch (block.GetComponent<Block>().blockData.num)
         {
             case 1:
                 yield return StartCoroutine(Walk());
@@ -101,7 +104,7 @@ public class BlockManager : MonoBehaviour
                 break;
             case 4 :
                 isLoop = true;
-                loopTime = block.loopTime;
+                loopTime = Int32.Parse(block.GetComponent<Block>().loopTime.text);
                 break;
             case 5 :
                 isLoop = false;
