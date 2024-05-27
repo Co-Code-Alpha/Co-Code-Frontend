@@ -82,6 +82,8 @@ public class BlockManager : MonoBehaviour
                 yield return StartCoroutine(ExecuteBlock(blocks[i]));
             }
         }
+        
+        FindObjectOfType<ProblemManager>().CheckAnswer();
     }
 
     private IEnumerator ExecuteBlock(GameObject block)
@@ -122,7 +124,6 @@ public class BlockManager : MonoBehaviour
             default:
                 break;
         }
-        
     }
 
     private IEnumerator Walk()
