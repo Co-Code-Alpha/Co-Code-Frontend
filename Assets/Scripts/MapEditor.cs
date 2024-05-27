@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -191,7 +192,12 @@ public class MapEditor : MonoBehaviour
         data.mapId = 1;
         data.data = placedObjects.ToArray();
         string json = JsonUtility.ToJson(data);
+
+        string path = Path.Combine(Application.dataPath, "Resources/Maps");
+        int fileCount = Directory.GetFiles(path, "*.txt").Length;
+        string fileName = fileCount.ToString() + ".txt";
+        path = Path.Combine(path, fileName);
         
-        Debug.Log(json);
+        File.WriteAllText(path, json);
     }
 }

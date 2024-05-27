@@ -4,43 +4,23 @@ using UnityEngine;
 
 public class MapManager : MonoBehaviour
 {
-    public List<GameObject> generated;
-
     void Start()
     {
-        //GenerateMap();
+        //string mapId = PlayerPrefs.GetString("currentMapId");
+        string mapId = "0";
+        GenerateMap(mapId);
     }
 
-    /*private Quaternion GetDirection(MapObject.Direction direction)
+    private void GenerateMap(string mapId)
     {
-        switch(direction)
-        {
-            case MapObject.Direction.Forward:
-                return Quaternion.Euler(0f, 0f, 0f);
-            case MapObject.Direction.Back:
-                return Quaternion.Euler(0f, 180f, 0f);
-            case MapObject.Direction.Left:
-                return Quaternion.Euler(0f, -90f, 0f);
-            case MapObject.Direction.Right:
-                return Quaternion.Euler(0f, 90f, 0f);
-            case MapObject.Direction.Up:
-                return Quaternion.Euler(90f, 0f, 0f);
-            case MapObject.Direction.Down:
-                return Quaternion.Euler(-90f, 0f, 0f);
-            default:
-                return Quaternion.identity;
-        }
-    }
+        MapEditor.MapData data =
+            JsonUtility.FromJson<MapEditor.MapData>(Resources.Load<TextAsset>("Maps/" + mapId).text);
 
-    public void GenerateMap()
-    {
-        generated = new List<GameObject>();
-        
-        foreach(MapObject obj in objects)
+        foreach (MapObject obj in data.data)
         {
+            Debug.Log(obj.modelId + " / " + obj.x + " , " + obj.y + " , " + obj.z);
             Vector3 pos = new Vector3(obj.x, obj.y, obj.z);
-            GameObject instance = Instantiate(obj.model, pos, GetDirection(obj.direction));
-            generated.Add(instance);
+            GameObject objectInstance = Instantiate(Resources.Load<GameObject>("Models/" + obj.modelId), pos, Quaternion.identity);
         }
-    }*/
+    }
 }
