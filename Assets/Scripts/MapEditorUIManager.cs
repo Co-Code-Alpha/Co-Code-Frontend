@@ -36,6 +36,7 @@ public class MapEditorUIManager : MonoBehaviour
     public CustomDropdown directionDropdown;
     public TMP_Text errorText;
     public Toggle tileToggle;
+    public Toggle interactableToggle;
     
     public int gridSize = 10;
     public LineRenderer linePrefab;
@@ -136,7 +137,7 @@ public class MapEditorUIManager : MonoBehaviour
             return;
         }
 
-        MapObject newObject = new MapObject(x, y, z, directionDropdown.index, selectedModel.modelId, tileToggle.isOn);
+        MapObject newObject = new MapObject(x, y, z, directionDropdown.index, selectedModel.modelId, tileToggle.isOn, interactableToggle.isOn);
         editor.AddObject(newObject);
         
         GameObject placedInstance = Instantiate(placedPrefab, placedListContent);
@@ -267,7 +268,7 @@ public class MapEditorUIManager : MonoBehaviour
             {
                 for (int c = z; c <= zEnd; c++)
                 {
-                    MapObject newObject = new MapObject(a, b, c, directionDropdown.index, selectedModel.modelId, tileToggle.isOn);
+                    MapObject newObject = new MapObject(a, b, c, directionDropdown.index, selectedModel.modelId, tileToggle.isOn, interactableToggle.isOn);
                     editor.AddObject(newObject);
         
                     GameObject placedInstance = Instantiate(placedPrefab, placedListContent);

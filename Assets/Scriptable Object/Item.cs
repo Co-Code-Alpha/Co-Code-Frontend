@@ -5,6 +5,6 @@ public class Item : ScriptableObject
 {
     public string name;
     public string description;
-    public int id;
-    
+    public string id;
+    public int price;
 }
