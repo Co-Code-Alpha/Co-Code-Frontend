@@ -16,9 +16,9 @@ public class ProblemManager : MonoBehaviour
         switch (problemId)
         {
             case "0" :
-                /* bool isSolved = Answer0.Check();
-                Debug.Log(isSolved);*/
-                FindObjectOfType<IngameUIManager>().SetSolved();
+                bool isSolved = Answer0.Check();
+                if(isSolved)
+                    FindObjectOfType<IngameUIManager>().SetSolved();
                 break;
             
             default :

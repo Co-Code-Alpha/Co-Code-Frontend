@@ -12,6 +12,6 @@ public class Answer0 : MonoBehaviour
     public static bool Check()
     {
         Transform player = GameObject.FindWithTag("Player").transform;
-        return (player.position == new Vector3(5f, 0.5f, 0f));
+        return player.GetComponent<PlayerCollider>().currentCollision.CompareTag("Answer");
     }
 }

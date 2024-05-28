@@ -5,6 +5,10 @@ TagManager:
   serializedVersion: 2
   tags:
   - Canvas
+  - Block
+  - Trash
+  - Window
+  - Answer
   layers:
   - Default
   - TransparentFX
