@@ -20,6 +20,13 @@ public class IngameUIManager : MonoBehaviour
     public Sprite downImage;
     public Sprite upImage;
     public GameObject blockWindow;
+    public GameObject solvedWindow;
+    public TMP_Text solvedText;
+    public TMP_Text conversionText;
+    public Button cButton;
+    public Button pythonButton;
+    public Button javaButton;
+    public Button exitButton;
     
     void Start()
     {
@@ -59,5 +66,33 @@ public class IngameUIManager : MonoBehaviour
         blockWindow.transform.DOMoveY(isFolded ? blockWindow.transform.position.y - 230f : blockWindow.transform.position.y + 230f, 1f);
         if (isFolded) foldIcon.sprite = upImage;
         else foldIcon.sprite = downImage;
+    }
+
+    public void SetSolved()
+    {
+        var seq = DOTween.Sequence();
+        seq.AppendInterval(1f);
+        seq.AppendCallback(() =>
+        {
+            solvedWindow.SetActive(true);
+        });
+        seq.Append(solvedText.DOFade(1f, 1f));
+        seq.AppendInterval(1f);
+        seq.Append(solvedText.DOFade(0f, 1f));
+        seq.AppendCallback(() =>
+        {
+            solvedText.gameObject.SetActive(false);
+            conversionText.DOFade(1f, 1f);
+            cButton.GetComponent<Image>().DOFade(1f, 1f);
+            pythonButton.GetComponent<Image>().DOFade(1f, 1f);
+            javaButton.GetComponent<Image>().DOFade(1f, 1f);
+            exitButton.GetComponent<Image>().DOFade(1f, 1f);
+            cButton.transform.GetChild(0).GetComponent<TMP_Text>().DOFade(1f, 1f);
+            pythonButton.transform.GetChild(0).GetComponent<TMP_Text>().DOFade(1f, 1f);
+            javaButton.transform.GetChild(0).GetComponent<TMP_Text>().DOFade(1f, 1f);
+            exitButton.transform.GetChild(0).GetComponent<TMP_Text>().DOFade(1f, 1f);
+        });
+
+        seq.Play();
     }
 }
