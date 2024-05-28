@@ -16,7 +16,7 @@ public class Problem : ScriptableObject
     
     public enum Category
     {
-        
+        IO, Calc, If, Loop, Array, Stack, Queue, Search
     }
     
     public int mapId;

@@ -33,6 +33,9 @@ public class LobbyUIManager : MonoBehaviour
     public Transform profileIconContent;
     public GameObject profileIconObject;
     public GameObject alertPanel;
+    [Header("Stage Objects")]
+    public GameObject problemObject;
+    public Transform problemContent;
     [Header("Q&A Objects")]
     public TMP_InputField chatInput;
     public GameObject chatPrefab;
@@ -186,6 +189,7 @@ public class LobbyUIManager : MonoBehaviour
         currentPanel.SetActive(false);
         currentPanel = stagePanel;
         currentPanel.SetActive(true);
+        InitStage();
     }
     
     public void ManageChallenge()
@@ -257,6 +261,58 @@ public class LobbyUIManager : MonoBehaviour
         alertPanel.SetActive(true);
         alertPanel.transform.GetChild(0).GetComponent<TMP_Text>().text = item + "\n구매가 완료되었습니다!";
         alertPanel.transform.GetChild(1).GetComponent<TMP_Text>().text = "잔액 : " + money + "코인";
+    }
+    
+    // STAGE UI
+
+    public void InitStage()
+    {
+        for (int i = problemContent.childCount - 1; i >= 0; i--)
+        {
+            Transform child = problemContent.GetChild(i);
+            Destroy(child.gameObject);
+        }
+        
+        Problem[] problems = Resources.LoadAll<Problem>("Problems");
+        foreach (Problem problem in problems)
+        {
+            GameObject problemInstance = Instantiate(problemObject, problemContent);
+            problemInstance.transform.GetChild(0).GetComponent<TMP_Text>().text = problem.title;
+            problemInstance.transform.GetChild(1).GetComponent<TMP_Text>().text = problem.description;
+            string categoryText = "";
+            switch (problem.category)
+            {
+                case Problem.Category.IO:
+                    categoryText = "입출력";
+                    break;
+                case Problem.Category.Calc:
+                    categoryText = "사칙연산";
+                    break;
+                case Problem.Category.If:
+                    categoryText = "조건";
+                    break;
+                case Problem.Category.Loop:
+                    categoryText = "반복";
+                    break;
+                case Problem.Category.Array:
+                    categoryText = "배열";
+                    break;
+                case Problem.Category.Stack:
+                    categoryText = "스택";
+                    break;
+                case Problem.Category.Queue:
+                    categoryText = "큐";
+                    break;
+                case Problem.Category.Search:
+                    categoryText = "탐색";
+                    break;
+                default:
+                    break;
+            }
+            problemInstance.transform.GetChild(2).GetComponent<TMP_Text>().text = categoryText + " 관련 문제";
+            problemInstance.transform.GetChild(3).GetComponent<Image>().sprite =
+                Resources.Load<Sprite>("Problems/" + problem.problemId.ToString());
+        }
     }
     
     // Q&A UI
