@@ -124,6 +124,9 @@ public class BlockManager : MonoBehaviour
                 loopTime = 1;
                 loopList.Clear();
                 break;
+            case 10 :
+                
+                break;
             default:
                 break;
         }
