@@ -39,6 +39,7 @@ public class ServerManager : MonoBehaviour
     class TokenData
     {
         public string token;
+        public bool tutorial;
     }
 
     [Serializable]
@@ -108,7 +109,7 @@ public class ServerManager : MonoBehaviour
         {
             TitleUIManager uiManager = FindObjectOfType<TitleUIManager>();
             uiManager.SetLoginError("잘못된 회원 정보입니다.");
-        }
+        }   
         else
         {
             TokenData tokenData = JsonUtility.FromJson<TokenData>(response);
@@ -117,7 +118,14 @@ public class ServerManager : MonoBehaviour
             PlayerPrefs.SetString("userId", id);
             
             SceneHandler handler = FindObjectOfType<SceneHandler>();
-            handler.SetTargetScene("Lobby");
+            if (tokenData.tutorial)
+            {
+                handler.SetTargetScene("Lobby");
+            }
+            else
+            {
+                handler.SetTargetScene("Tutorial");
+            }
             SceneManager.LoadScene("Load");
         }
     }
