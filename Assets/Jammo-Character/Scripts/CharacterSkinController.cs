@@ -36,7 +36,7 @@ public class CharacterSkinController : MonoBehaviour
             ChangeEyeOffset(EyePosition.angry);
             ChangeAnimatorIdle("angry");
         }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
+        if (Input.GetKeyDown(KeyCode.H))
         {
             //ChangeMaterialSettings(2);
             ChangeEyeOffset(EyePosition.happy);
