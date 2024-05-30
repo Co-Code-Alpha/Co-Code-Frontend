@@ -83,6 +83,7 @@ public class BlockManager : MonoBehaviour
             }
         }
         
+        FindObjectOfType<ButtonManager>().ResetButton();
         FindObjectOfType<ProblemManager>().CheckAnswer();
     }
 

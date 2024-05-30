@@ -106,6 +106,8 @@ public class DragDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDrag
         if (onTrash && isDropped)
         {
             blockManager.listOfLists[listIndex].blockList.RemoveRange(blockIndex, blockManager.listOfLists[listIndex].blockList.Count - blockIndex);
+            if(blockManager.listOfLists[listIndex].blockList.Count == 0)
+                blockManager.listOfLists.RemoveAt(listIndex);
             
             Transform bottomBlock = blockColliderBottom.otherBlock;
             while (bottomBlock != null)
@@ -130,6 +132,7 @@ public class DragDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDrag
             {
                 coppiedBlock = Instantiate(Resources.Load<GameObject>("Prefabs/" + gameObject.name),
                     codeWindow.transform, false);
+                coppiedBlock.transform.SetParent(codeWindow.transform.GetChild(1));
                 coppiedBlock.GetComponent<DragDrop>().isDropped = true;
                 if (isAttaching)
                 {

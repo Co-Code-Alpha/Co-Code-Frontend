@@ -108,7 +108,7 @@ public class TutorialManager : MonoBehaviour
                 if (FindObjectOfType<BlockManager>().listOfLists[0].blockList[0].GetComponent<Block>().blockData.name ==
                     "Walk")
                 {
-                    Debug.Log("SEQ3 GOGO");
+                    Seq3();
                 }
                 else
                 {
@@ -116,6 +116,82 @@ public class TutorialManager : MonoBehaviour
                     tutorialText.DOText("Move 카테고리의 걷기 블록은 위 화살표 아이콘의 블록이에요.", 2f);
                 }
             });
+        });
+        seq.Play();
+    }
+
+    public void Seq3()
+    {
+        tutorialText.text = "";
+        var seq = DOTween.Sequence();
+        seq.Append(tutorialText.DOText("잘 하셨어요! 이번엔 코드 블록을 여러 개 사용해 볼 거에요.", 2f));
+        seq.AppendInterval(2f);
+        seq.AppendCallback(() =>
+        {
+            tutorialText.text = "";
+        });
+        seq.Append(tutorialText.DOText("코드 블록을 이으려면 블록의 아래쪽에 새 블록을 드래그하시면 돼요.", 2f));
+        seq.AppendInterval(2f);
+        seq.AppendCallback(() =>
+        {
+            tutorialText.text = "";
+        });
+        seq.Append(tutorialText.DOText("실행 시 코드는 위에서 아래 방향으로 순차적으로 실행돼요.", 2f));
+        seq.AppendInterval(2f);
+        seq.AppendCallback(() =>
+        {
+            tutorialText.text = "";
+        });
+        seq.Append(tutorialText.DOText("이번엔 오른쪽으로 회전 후 한 칸 앞으로 움직이는 코드를 만들어 볼까요?", 2f));
+        seq.AppendCallback(() =>
+        {
+            playButton.onClick.RemoveAllListeners();
+            playButton.onClick.AddListener(() =>
+            {
+                if (FindObjectOfType<BlockManager>().listOfLists[0].blockList[0].GetComponent<Block>().blockData.name ==
+                    "Turn Right"&& FindObjectOfType<BlockManager>().listOfLists[0].blockList[1].GetComponent<Block>().blockData.name ==
+                    "Walk")
+                {
+                    Seq4();
+                }
+                else
+                {
+                    tutorialText.text = "";
+                    tutorialText.DOText("오른쪽 화살표 아이콘의 우회전 블록과 걷기 블록을 조합해야 해요.", 2f);
+                }
+            });
+        });
+        seq.Play();
+    }
+
+    public void Seq4()
+    {
+        tutorialText.text = "";
+        var seq = DOTween.Sequence();
+        seq.Append(tutorialText.DOText("잘 하셨어요! 이런 식으로 코드를 조합해 문제를 해결하시면 돼요.", 2f));
+        seq.AppendInterval(2f);
+        seq.AppendCallback(() =>
+        {
+            tutorialText.text = "";
+            virtualCam.Priority = 11;
+        });
+        seq.Append(tutorialText.DOText("앞으로 여러 문법과 자료구조에 대해 익히시게 될 거에요.", 2f));
+        seq.AppendInterval(2f);
+        seq.AppendCallback(() =>
+        {
+            tutorialText.text = "";
+        });
+        seq.Append(tutorialText.DOText("일주일마다 바뀌는 도전과제는 어렵지만 큰 보상을 약속하니, 준비가 되면 부딪혀 보세요.", 2f));
+        seq.AppendInterval(2f);
+        seq.AppendCallback(() =>
+        {
+            tutorialText.text = "";
+        });
+        seq.Append(tutorialText.DOText("이제 시작이에요. Co-Code에서 프로그래밍을 가볍게 이해해 보고, 멋진 개발자가 되길 바랄게요!", 2f));
+        seq.AppendInterval(2f);
+        seq.AppendCallback(() =>
+        {
+            tutorialText.text = "";
         });
         seq.Play();
     }
