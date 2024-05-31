@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657838, g: 0.49641228, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -377,11 +377,11 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.01
+  near clip plane: -166.62
   far clip plane: 5000
   field of view: 40
   orthographic: 1
-  orthographic size: 2.93
+  orthographic size: 10
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -405,8 +405,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 73536915}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.11326596, y: -0.69797623, z: 0.113265954, w: 0.69797623}
-  m_LocalPosition: {x: 2.9999998, y: 1.5, z: -0.00000035762787}
+  m_LocalRotation: {x: 0.31873026, y: 0.4203313, z: -0.16059367, w: 0.8342316}
+  m_LocalPosition: {x: -2.4110382, y: 4, z: -1.7851878}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2185,7 +2185,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 1
-  m_FollowOffset: {x: 0, y: 1, z: 3}
+  m_FollowOffset: {x: 0, y: 0, z: 3}
   m_XDamping: 1
   m_YDamping: 1
   m_ZDamping: 1
@@ -3215,7 +3215,7 @@ MonoBehaviour:
   m_Lens:
     FieldOfView: 40
     OrthographicSize: 10
-    NearClipPlane: 0.01
+    NearClipPlane: -166.62
     FarClipPlane: 5000
     Dutch: 0
     ModeOverride: 0
@@ -3240,7 +3240,7 @@ Transform:
   m_GameObject: {fileID: 427445840}
   serializedVersion: 2
   m_LocalRotation: {x: 0.39938235, y: 0.40246114, z: -0.20123059, w: 0.7987647}
-  m_LocalPosition: {x: 0.00000023841858, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -9905,7 +9905,7 @@ MonoBehaviour:
   m_Lens:
     FieldOfView: 40
     OrthographicSize: 10
-    NearClipPlane: 0.01
+    NearClipPlane: -166.62
     FarClipPlane: 5000
     Dutch: 0
     ModeOverride: 0
@@ -9929,7 +9929,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1338982496}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.31873026, y: 0.4203313, z: -0.16059367, w: 0.83423156}
+  m_LocalRotation: {x: 0.3187303, y: 0.42033127, z: -0.16059361, w: 0.8342316}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -11141,7 +11141,7 @@ MonoBehaviour:
   m_Lens:
     FieldOfView: 40
     OrthographicSize: 10
-    NearClipPlane: 0.01
+    NearClipPlane: -166.62
     FarClipPlane: 5000
     Dutch: 0
     ModeOverride: 0
@@ -11165,7 +11165,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1461470854}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.2411236, y: 0.43325353, z: -0.12149119, w: 0.85987836}
+  m_LocalRotation: {x: 0.24112359, y: 0.43325353, z: -0.12149118, w: 0.85987836}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -11976,7 +11976,7 @@ MonoBehaviour:
   m_Lens:
     FieldOfView: 40
     OrthographicSize: 10
-    NearClipPlane: 0.01
+    NearClipPlane: -166.62
     FarClipPlane: 5000
     Dutch: 0
     ModeOverride: 0
@@ -15700,7 +15700,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1952871378
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15723,7 +15723,7 @@ MonoBehaviour:
   m_Follow: {fileID: 386141192}
   m_Lens:
     FieldOfView: 40
-    OrthographicSize: 2.93
+    OrthographicSize: 4.46
     NearClipPlane: 0.01
     FarClipPlane: 5000
     Dutch: 0
@@ -15748,8 +15748,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1952871377}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.11326596, y: -0.69797623, z: 0.113265954, w: 0.69797623}
-  m_LocalPosition: {x: 2.9999998, y: 1.5, z: -0.00000035762787}
+  m_LocalRotation: {x: 5.8015586e-15, y: -0.70710677, z: 5.8015595e-15, w: 0.7071069}
+  m_LocalPosition: {x: 2.9999998, y: 0.5, z: -0.00000035762787}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

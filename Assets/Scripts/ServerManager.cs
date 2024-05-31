@@ -117,15 +117,18 @@ public class ServerManager : MonoBehaviour
             PlayerPrefs.SetString("token", tokenData.token);
             PlayerPrefs.SetString("userId", id);
             
+            Debug.Log("sdfsd");
             SceneHandler handler = FindObjectOfType<SceneHandler>();
-            if (tokenData.tutorial)
+            /*if (tokenData.tutorial)
             {
                 handler.SetTargetScene("Lobby");
             }
             else
             {
                 handler.SetTargetScene("Tutorial");
-            }
+            }*/
+            handler.SetTargetScene("Lobby");
+
             SceneManager.LoadScene("Load");
         }
     }

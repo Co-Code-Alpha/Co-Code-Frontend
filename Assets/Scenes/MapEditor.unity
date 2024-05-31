@@ -6017,7 +6017,7 @@ MonoBehaviour:
   - modelId: tile
     icon: {fileID: 21300000, guid: 617732d3be80849388b749190ca7d3ea, type: 3}
   - modelId: box
-    icon: {fileID: 21300000, guid: 9145a9930e61c4ce999ff6d64174f91c, type: 3}
+    icon: {fileID: 21300000, guid: 36af0db14943c594daf6053780c90e1b, type: 3}
   - modelId: answerTile
     icon: {fileID: 21300000, guid: c5608747a9a5641bab53c7a906c2ce45, type: 3}
   placedObjects: []
