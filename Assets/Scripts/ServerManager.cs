@@ -117,18 +117,15 @@ public class ServerManager : MonoBehaviour
             PlayerPrefs.SetString("token", tokenData.token);
             PlayerPrefs.SetString("userId", id);
             
-            Debug.Log("sdfsd");
             SceneHandler handler = FindObjectOfType<SceneHandler>();
-            /*if (tokenData.tutorial)
+            if (tokenData.tutorial)
             {
                 handler.SetTargetScene("Lobby");
             }
             else
             {
                 handler.SetTargetScene("Tutorial");
-            }*/
-            handler.SetTargetScene("Lobby");
-
+            }
             SceneManager.LoadScene("Load");
         }
     }
@@ -140,13 +137,12 @@ public class ServerManager : MonoBehaviour
 
     public void ClearTutorialRequest()
     {
-        
+        StartCoroutine(ClearTutorial());
     }
 
     IEnumerator ClearTutorial()
     {
-        /*string[] pair = { "userId", id, "password", password, "nickname", nickname, "email", email };
-        string json = CreateJsonString(pair);
+        string json = "";
         UnityWebRequest request = UnityWebRequest.PostWwwForm(url + "api/game/tutorial", json);
         byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(json);
         request.uploadHandler = (UploadHandler)new UploadHandlerRaw(jsonToSend);
@@ -157,11 +153,13 @@ public class ServerManager : MonoBehaviour
         SetLoadPanel("서버 응답 대기 중");
         yield return request.SendWebRequest();
         DestroyLoadPanel();
-        ProfileData data = JsonUtility.FromJson<ProfileData>(request.downloadHandler.text);
 
-        LobbyUIManager ui = FindObjectOfType<LobbyUIManager>();
-        ui.SetProfile(data.nickname, data.profile, data.background);*/
-        yield return null;
+        if (request.responseCode == 200)
+        {
+            SceneHandler handler = FindObjectOfType<SceneHandler>();
+            handler.SetTargetScene("Lobby");
+            SceneManager.LoadScene("Load");
+        }
     }
 
     // ------------------------------

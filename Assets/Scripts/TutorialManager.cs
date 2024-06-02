@@ -192,6 +192,7 @@ public class TutorialManager : MonoBehaviour
         seq.AppendCallback(() =>
         {
             tutorialText.text = "";
+            FindObjectOfType<ServerManager>().ClearTutorialRequest();
         });
         seq.Play();
     }
