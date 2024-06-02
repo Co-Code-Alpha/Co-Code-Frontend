@@ -27,6 +27,8 @@ public class IngameUIManager : MonoBehaviour
     public Button pythonButton;
     public Button javaButton;
     public Button exitButton;
+    public GameObject generatedCode;
+    public TMP_Text codeText;
     
     void Start()
     {
@@ -91,8 +93,52 @@ public class IngameUIManager : MonoBehaviour
             pythonButton.transform.GetChild(0).GetComponent<TMP_Text>().DOFade(1f, 1f);
             javaButton.transform.GetChild(0).GetComponent<TMP_Text>().DOFade(1f, 1f);
             exitButton.transform.GetChild(0).GetComponent<TMP_Text>().DOFade(1f, 1f);
+
+            string code = "";
+            foreach(GameObject i in FindObjectOfType<BlockManager>().listOfLists[0].blockList)
+            {
+                BlockData data = i.GetComponent<BlockData>();
+                switch (data.name)
+                {
+                    case "Walk":
+                        code += "걷다 ";
+                        break;
+                    case "Turn Right":
+                        code += "오른쪽으로 회전하다 ";
+                        break;
+                    default:
+                        break;
+                }
+            }
+            
+            cButton.onClick.AddListener(() =>
+            {
+                FindObjectOfType<ServerManager>().GenerateCodeRequest(code + " 를 C++ 코드로 쉽게 변환해 줘");
+            });
+            
+            pythonButton.onClick.AddListener(() =>
+            {
+                Debug.Log("GOGOGO");
+                FindObjectOfType<ServerManager>().GenerateCodeRequest(code + " 를 파이썬 코드로 쉽게 변환해 줘");
+            });
+            
+            javaButton.onClick.AddListener(() =>
+            {
+                FindObjectOfType<ServerManager>().GenerateCodeRequest(code + " 를 Java 코드로 쉽게 변환해 줘");
+            });
         });
 
         seq.Play();
+    }
+
+    public void GenerateTest()
+    {
+        FindObjectOfType<ServerManager>().GenerateCodeRequest("앞으로 이동 5번 를 파이썬 코드로 쉽게 변환해 줘");
+    }
+
+    public void SetCode(string text)
+    {
+        generatedCode.SetActive(true);
+        codeText.text = text;
     }
 }

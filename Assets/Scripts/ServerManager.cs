@@ -640,6 +640,39 @@ public class ServerManager : MonoBehaviour
     }
     
     // ------------------------------
+    
+    // ------------------------------
+    // 코드 변환
+
+    public void GenerateCodeRequest(string text)
+    {
+        StartCoroutine(GenerateCode(text));
+    }
+
+    IEnumerator GenerateCode(string text)
+    {
+        string[] pair = { "instruction", text };
+        string json = CreateJsonString(pair);
+        UnityWebRequest request = UnityWebRequest.PostWwwForm("https://76fd-34-125-180-111.ngrok-free.app/generate", json);
+        byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(json);
+        request.uploadHandler = (UploadHandler)new UploadHandlerRaw(jsonToSend);
+        request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
+        request.SetRequestHeader("Content-Type", "application/json");
+
+        SetLoadPanel("서버 응답 대기 중");
+        yield return request.SendWebRequest();
+        DestroyLoadPanel();
+        
+        Debug.Log(request.responseCode);
+
+        if (request.responseCode == 200)
+        {
+            ChatData data = JsonUtility.FromJson<ChatData>(request.downloadHandler.text);
+            FindObjectOfType<IngameUIManager>().SetCode(data.generated_text);
+        }
+    }
+
+    // ------------------------------
 
     // ------------------------------
     // 회원 탈퇴

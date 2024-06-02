@@ -360,6 +360,13 @@ public class LobbyUIManager : MonoBehaviour
                 Resources.Load<Sprite>("Problems/" + problem.problemId.ToString());
         }
     }
+
+    public void GoToGame()
+    {
+        SceneHandler handler = FindObjectOfType<SceneHandler>();
+        handler.SetTargetScene("Ingame 1");
+        SceneManager.LoadScene("Load");
+    }
     
     // Q&A UI
     
