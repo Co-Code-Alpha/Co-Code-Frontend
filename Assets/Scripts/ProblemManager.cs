@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ProblemManager : MonoBehaviour
 {
+    public int problemNum;
     void Start()
     {
         PlayerPrefs.SetString("currentProblemId", "0");
@@ -16,6 +17,7 @@ public class ProblemManager : MonoBehaviour
         switch (problemId)
         {
             case "0" :
+                problemNum = 0;
                 bool isSolved = Answer0.Check();
                 if(isSolved)
                     FindObjectOfType<IngameUIManager>().SetSolved();

@@ -21,7 +21,7 @@ public class BlockManager : MonoBehaviour
     public Rigidbody playerRigidbody;
 
     public bool isLoop = false;
-
+    public bool isIf = false;
     public int loopTime = 1;
     
     [SerializeField]
@@ -73,6 +73,10 @@ public class BlockManager : MonoBehaviour
         for (int i = 0; i < blocks.Count; i++)
         {
             Debug.Log(blocks[i].GetComponent<Block>().blockData.num);
+            if (isIf)
+            {
+                yield break;
+            }
             if (isLoop && blocks[i].GetComponent<Block>().blockData.num != 5)
             {
                 loopList.Add(blocks[i]);
@@ -113,8 +117,6 @@ public class BlockManager : MonoBehaviour
             case 5 :
                 for (int i = 0; i < loopTime; i++)
                 {
-                    Debug.Log("SIUUUUU");
-
                     for (int j = 0; j < loopList.Count; j++)
                     {
                         yield return StartCoroutine(ExecuteBlock(loopList[j])); 
@@ -124,8 +126,14 @@ public class BlockManager : MonoBehaviour
                 loopTime = 1;
                 loopList.Clear();
                 break;
-            case 10 :
-                
+            case 6 :
+                if (!block.GetComponent<IfBlock>().condition)
+                {
+                    isIf = true;
+                }
+                break;
+            case 7 :
+                isIf = false;
                 break;
             default:
                 break;
