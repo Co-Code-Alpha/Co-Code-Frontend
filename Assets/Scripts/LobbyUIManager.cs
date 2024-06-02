@@ -28,6 +28,13 @@ public class LobbyUIManager : MonoBehaviour
     public TMP_Text profileNicknameText;
     public Image profileImage;
     public Image profileBackground;
+    public Transform profileImageEditContent;
+    public GameObject profileImageEditObject;
+    public Transform profileBackgroundEditContent;
+    public GameObject profileBackgroundEditObject;
+    public ServerManager.ProfileData profileData;
+    private string currentImage = "";
+    private string currentBackground = "";
     [Header("Shop Objects")]
     public TMP_Text moneyText;
     public Transform profileIconContent;
@@ -154,6 +161,8 @@ public class LobbyUIManager : MonoBehaviour
 
     public void SetProfile(string nickname, string image, string background)
     {
+        currentImage = image;
+        currentBackground = background;
         Debug.Log(nickname + " / " + image + " / " + background);
         profileNicknameText.text = nickname;
         profileImage.sprite = Resources.Load<Sprite>("Profile/Image/" + image);
@@ -166,6 +175,41 @@ public class LobbyUIManager : MonoBehaviour
         isEditMode = true;
         foreach(GameObject obj in editOnlyObjects)
             obj.SetActive(isEditMode);
+        
+        for (int i = profileImageEditContent.childCount - 1; i >= 0; i--)
+        {
+            Transform child = profileImageEditContent.GetChild(i);
+            Destroy(child.gameObject);
+        }
+        
+        for (int i = profileBackgroundEditContent.childCount - 1; i >= 0; i--)
+        {
+            Transform child = profileBackgroundEditContent.GetChild(i);
+            Destroy(child.gameObject);
+        }
+
+        foreach (string item in profileData.item)
+        {
+            if (item[0] == 'p')
+            {
+                GameObject imgInstance = Instantiate(profileImageEditObject, profileImageEditContent);
+                imgInstance.GetComponent<Image>().sprite =
+                    Resources.Load<Sprite>("Profile/Image/profile" + item[item.Length - 1]);
+                imgInstance.GetComponent<Button>().onClick.AddListener(() =>
+                {
+                    currentImage = item;
+                });
+            } else if (item[0] == 'b')
+            {
+                GameObject bgInstance = Instantiate(profileBackgroundEditObject, profileBackgroundEditContent);
+                bgInstance.GetComponent<Image>().sprite =
+                    Resources.Load<Sprite>("Profile/Background/background" + item[item.Length - 1]);
+                bgInstance.GetComponent<Button>().onClick.AddListener(() =>
+                {
+                    currentBackground = item;
+                });
+            }
+        }
     }
 
     public void ExitEditMode()
@@ -182,6 +226,8 @@ public class LobbyUIManager : MonoBehaviour
         isEditMode = false;
         foreach(GameObject obj in editOnlyObjects)
             obj.SetActive(isEditMode);
+
+        server.ProfileEditRequest(currentImage, currentBackground);
     }
     
     public void ManageStage()

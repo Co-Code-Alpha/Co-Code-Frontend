@@ -43,7 +43,7 @@ public class ServerManager : MonoBehaviour
     }
 
     [Serializable]
-    class ProfileData
+    public class ProfileData
     {
         public string nickname;
         public string profile;
@@ -133,6 +133,37 @@ public class ServerManager : MonoBehaviour
         }
     }
     
+    // ------------------------------
+    
+    // ------------------------------
+    // 튜토리얼 클리어 후
+
+    public void ClearTutorialRequest()
+    {
+        
+    }
+
+    IEnumerator ClearTutorial()
+    {
+        /*string[] pair = { "userId", id, "password", password, "nickname", nickname, "email", email };
+        string json = CreateJsonString(pair);
+        UnityWebRequest request = UnityWebRequest.PostWwwForm(url + "api/game/tutorial", json);
+        byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(json);
+        request.uploadHandler = (UploadHandler)new UploadHandlerRaw(jsonToSend);
+        request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
+        request.SetRequestHeader("Content-Type", "application/json");
+        request.SetRequestHeader("Authorization", "Bearer " + PlayerPrefs.GetString("token"));
+        
+        SetLoadPanel("서버 응답 대기 중");
+        yield return request.SendWebRequest();
+        DestroyLoadPanel();
+        ProfileData data = JsonUtility.FromJson<ProfileData>(request.downloadHandler.text);
+
+        LobbyUIManager ui = FindObjectOfType<LobbyUIManager>();
+        ui.SetProfile(data.nickname, data.profile, data.background);*/
+        yield return null;
+    }
+
     // ------------------------------
 
     // ------------------------------
@@ -346,9 +377,40 @@ public class ServerManager : MonoBehaviour
         ProfileData data = JsonUtility.FromJson<ProfileData>(request.downloadHandler.text);
 
         LobbyUIManager ui = FindObjectOfType<LobbyUIManager>();
+        ui.profileData = data;
         ui.SetProfile(data.nickname, data.profile, data.background);
     }
     
+    // ------------------------------
+
+    // ------------------------------
+    // 프로필 변경
+
+    public void ProfileEditRequest(string image, string background)
+    {
+        StartCoroutine(ProfileEdit(image, background));
+    }
+    
+    IEnumerator ProfileEdit(string image, string background)
+    {
+        string[] pair = { "profileId", image, "backgroundId", background };
+        string json = CreateJsonString(pair);
+        UnityWebRequest request = UnityWebRequest.PostWwwForm(url + "api/lobby/profileEdit", json);
+        request.SetRequestHeader("Authorization", "Bearer " + PlayerPrefs.GetString("token"));
+        byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(json);
+        request.uploadHandler = (UploadHandler)new UploadHandlerRaw(jsonToSend);
+        request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
+        request.SetRequestHeader("Content-Type", "application/json");
+
+        SetLoadPanel("서버 응답 대기 중");
+        yield return request.SendWebRequest();
+        DestroyLoadPanel();
+
+        if (request.responseCode == 200)
+        {
+            ProfileRequest();
+        }
+    }
     // ------------------------------
 
     // ------------------------------
