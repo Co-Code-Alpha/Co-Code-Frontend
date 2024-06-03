@@ -96,6 +96,7 @@ public class BlockManager : MonoBehaviour
         {
             yield break;
         }
+        FindObjectOfType<ProblemManager>().Checking();
         
         switch (block.GetComponent<Block>().blockData.num)
         {

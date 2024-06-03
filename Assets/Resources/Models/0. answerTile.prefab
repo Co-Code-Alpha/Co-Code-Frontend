@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7622178628998411283}
   - component: {fileID: 8776034399517274559}
   m_Layer: 0
-  m_Name: answerTile
+  m_Name: 0. answerTile
   m_TagString: Answer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

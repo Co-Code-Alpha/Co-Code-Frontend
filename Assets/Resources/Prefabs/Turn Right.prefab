@@ -466,7 +466,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87628391ef6cb490ea1255ef67bd2370, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isBottom: 0
+  isBottom: 1
   otherBlock: {fileID: 0}
 --- !u!1 &7652206061043816804
 GameObject:

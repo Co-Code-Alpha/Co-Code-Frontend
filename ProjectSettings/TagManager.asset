@@ -9,6 +9,9 @@ TagManager:
   - Trash
   - Window
   - Answer
+  - PlayerEyes
+  - Correct
+  - Wrong
   layers:
   - Default
   - TransparentFX

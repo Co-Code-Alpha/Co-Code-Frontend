@@ -10,14 +10,19 @@ public class BlockColliderTop : MonoBehaviour
     public int ohterBlockListIndex = -1;
     private void OnTriggerStay2D(Collider2D other)
     {
-            otherBlock = other.transform.parent;
-            transform.parent.GetComponent<DragDrop>().isAttaching = true;
-            float offset = otherBlock.gameObject.GetComponent<RectTransform>().rect.height / 2;
-            transform.parent.GetComponent<DragDrop>().attachPosition = otherBlock.transform.position;
-            transform.parent.GetComponent<DragDrop>().attachPosition.y -=
-                offset + (transform.gameObject.GetComponent<RectTransform>().rect.height / 2);
-            ohterBlockListIndex = otherBlock.GetComponent<DragDrop>().listIndex;
-            transform.parent.GetComponent<DragDrop>().listIndex = ohterBlockListIndex;
+        if (!transform.parent.GetComponent<DragDrop>().isClicked)
+        {
+            Debug.Log("1234");
+            return;
+        }
+        otherBlock = other.transform.parent;
+        transform.parent.GetComponent<DragDrop>().isAttaching = true;
+        float offset = otherBlock.gameObject.GetComponent<RectTransform>().rect.height / 2;
+        transform.parent.GetComponent<DragDrop>().attachPosition = otherBlock.transform.position;
+        transform.parent.GetComponent<DragDrop>().attachPosition.y -=
+            offset + (transform.gameObject.GetComponent<RectTransform>().rect.height / 2);
+        ohterBlockListIndex = otherBlock.GetComponent<DragDrop>().listIndex;
+        transform.parent.GetComponent<DragDrop>().listIndex = ohterBlockListIndex;
     }
 
     private void OnTriggerExit2D(Collider2D other)

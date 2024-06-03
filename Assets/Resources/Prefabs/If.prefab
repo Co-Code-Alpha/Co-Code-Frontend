@@ -349,7 +349,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   problemManager: {fileID: 0}
-  popupPrefab: {fileID: 8392133645461344777, guid: 2ed1210bb025a6e408a3b6f0ad566b1a, type: 3}
+  ifPopup: {fileID: 0}
+  canvas: {fileID: 0}
   condition: 0
   input: {fileID: 2100154464499280730}
 --- !u!1 &875572835283723147
@@ -1271,7 +1272,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87628391ef6cb490ea1255ef67bd2370, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isBottom: 0
+  isBottom: 1
   otherBlock: {fileID: 0}
 --- !u!1 &6778550007989317906
 GameObject:
