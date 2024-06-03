@@ -50,8 +50,7 @@ public class DragDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDrag
         Vector2 currentPos = eventData.position;
         this.transform.position = currentPos;
 
-        if (!blockColliderBottom.isBottom &&
-            blockColliderBottom.otherBlock.transform.parent.GetComponent<DragDrop>().isAttaching)
+        if (!blockColliderBottom.isBottom)
         {
             Transform bottomBlock = blockColliderBottom.otherBlock;
             Transform currentBlock = transform;

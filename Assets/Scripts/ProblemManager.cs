@@ -34,7 +34,7 @@ public class ProblemManager : MonoBehaviour
             case "1" :
                 problemNum = 1;
                 isSolved = Answer1.Check();
-                if (!isCorrect || isCorrect && isWrong) isSolved = false;
+                if (!isCorrect || isWrong) isSolved = false;
                 if(isSolved)
                     FindObjectOfType<IngameUIManager>().SetSolved();
                 break;
