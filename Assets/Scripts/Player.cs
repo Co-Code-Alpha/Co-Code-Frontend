@@ -4,10 +4,17 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    private Vector3 startPos;
+
+    private Quaternion startRot;
+
+    private FadeController fadeController;
     // Start is called before the first frame update
     void Start()
     {
-        
+        startPos = transform.position;
+        startRot = transform.rotation;
+        fadeController = FindObjectOfType<FadeController>();
     }
 
     // Update is called once per frame
@@ -24,6 +31,8 @@ public class Player : MonoBehaviour
 
     void DieEvent()
     {
-        
+        transform.position = startPos;
+        transform.rotation = startRot;
+        fadeController.Fade();
     }
 }
