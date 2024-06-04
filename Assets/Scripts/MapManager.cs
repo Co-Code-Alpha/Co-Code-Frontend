@@ -7,7 +7,7 @@ public class MapManager : MonoBehaviour
     void Start()
     {
         //string mapId = PlayerPrefs.GetString("currentMapId");
-        string mapId = "1";
+        string mapId = "2";
         GenerateMap(mapId);
     }
 

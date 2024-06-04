@@ -106,6 +106,9 @@ public class IngameUIManager : MonoBehaviour
                     case "Turn Right":
                         code += "오른쪽으로 회전하다 ";
                         break;
+                    case "Turn Left":
+                        code += "왼쪽으로 회전하다 ";
+                        break;
                     default:
                         break;
                 }

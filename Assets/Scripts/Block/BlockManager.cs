@@ -98,6 +98,7 @@ public class BlockManager : MonoBehaviour
         }
         FindObjectOfType<ProblemManager>().Checking();
         
+        
         switch (block.GetComponent<Block>().blockData.num)
         {
             case 1:

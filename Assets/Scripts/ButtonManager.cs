@@ -7,9 +7,11 @@ public class ButtonManager : MonoBehaviour
     public GameObject codeWindow;
     public BlockManager blockManager;
     private Coroutine playCoroutine;
+    public FadeController fadeController;
     
     public void ResetButton()
     {
+        fadeController.Fade();
         Transform[] childBlock = new Transform[codeWindow.transform.childCount];
         for (int i = 0; i < codeWindow.transform.childCount; i++)
         {
@@ -59,6 +61,7 @@ public class ButtonManager : MonoBehaviour
     void Start()
     {
         blockManager = FindObjectOfType<BlockManager>();
+        fadeController = FindObjectOfType<FadeController>();
     }
 
     // Update is called once per frame

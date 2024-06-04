@@ -12,6 +12,7 @@ TagManager:
   - PlayerEyes
   - Correct
   - Wrong
+  - Tile
   layers:
   - Default
   - TransparentFX
