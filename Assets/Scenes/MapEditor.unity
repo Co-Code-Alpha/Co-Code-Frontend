@@ -4775,7 +4775,7 @@ Transform:
   m_GameObject: {fileID: 966488322}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.4110382, y: 4, z: -1.7851878}
+  m_LocalPosition: {x: -2.411038, y: 4, z: -1.7851878}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6024,6 +6024,22 @@ MonoBehaviour:
     icon: {fileID: 0}
   - modelId: 1. wrong tile
     icon: {fileID: 0}
+  - modelId: grass
+    icon: {fileID: 0}
+  - modelId: rail
+    icon: {fileID: 0}
+  - modelId: rail 1
+    icon: {fileID: 0}
+  - modelId: tree-pine
+    icon: {fileID: 0}
+  - modelId: tree
+    icon: {fileID: 0}
+  - modelId: flag
+    icon: {fileID: 0}
+  - modelId: button
+    icon: {fileID: 0}
+  - modelId: box
+    icon: {fileID: 0}
   placedObjects: []
   placedInstances: []
 --- !u!4 &1082188135
@@ -6249,8 +6265,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1203072136}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.31873026, y: 0.4203313, z: -0.16059367, w: 0.8342316}
-  m_LocalPosition: {x: -2.4110382, y: 4, z: -1.7851878}
+  m_LocalRotation: {x: 0.3187303, y: 0.42033133, z: -0.16059369, w: 0.83423156}
+  m_LocalPosition: {x: -2.411038, y: 4, z: -1.7851878}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6907,7 +6923,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1236273344}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.3187303, y: 0.42033127, z: -0.16059361, w: 0.8342316}
+  m_LocalRotation: {x: 0.3187303, y: 0.4203313, z: -0.16059367, w: 0.8342316}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -9418,7 +9434,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1734307235}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.2411236, y: 0.43325353, z: -0.12149119, w: 0.85987836}
+  m_LocalRotation: {x: 0.24112362, y: 0.43325347, z: -0.12149118, w: 0.85987836}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
