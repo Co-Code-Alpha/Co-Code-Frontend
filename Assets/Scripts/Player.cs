@@ -20,13 +20,13 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!transform.GetComponent<PlayerCollider>().currentCollision.CompareTag("Answer") &&
+        /*if (!transform.GetComponent<PlayerCollider>().currentCollision.CompareTag("Answer") &&
             !transform.GetComponent<PlayerCollider>().currentCollision.CompareTag("Wrong") &&
             !transform.GetComponent<PlayerCollider>().currentCollision.CompareTag("Correct") &&
             !transform.GetComponent<PlayerCollider>().currentCollision.CompareTag("Tile"))
         {
             DieEvent();
-        }
+        }*/
     }
 
     void DieEvent()

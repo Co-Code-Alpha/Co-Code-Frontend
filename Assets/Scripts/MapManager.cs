@@ -9,6 +9,16 @@ public class MapManager : MonoBehaviour
         //string mapId = PlayerPrefs.GetString("currentMapId");
         string mapId = "2";
         GenerateMap(mapId);
+        if (mapId == "3")
+        {
+            GameObject.FindWithTag("box").transform.rotation = Quaternion.Euler(0, 0, 0);
+            Transform player = GameObject.FindWithTag("Player").transform;
+            player.transform.position = new Vector3(-3, 4, 3);
+        }
+        else
+        {
+            GameObject.FindWithTag("box").transform.rotation = Quaternion.Euler(0, -90, 0);
+        }
     }
 
     private void GenerateMap(string mapId)

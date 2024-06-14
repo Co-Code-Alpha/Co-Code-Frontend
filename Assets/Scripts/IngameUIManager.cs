@@ -109,6 +109,12 @@ public class IngameUIManager : MonoBehaviour
                     case "Turn Left":
                         code += "왼쪽으로 회전하다 ";
                         break;
+                    case "Loop" :
+                        code += "지금부터";
+                        break;
+                    case "LoopEnd" :
+                        code += "여기까지 ";
+                        break;
                     default:
                         break;
                 }

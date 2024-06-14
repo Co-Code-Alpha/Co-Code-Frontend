@@ -16,6 +16,10 @@ public class BlockList
 public class BlockManager : MonoBehaviour
 {
     public GameObject player;
+    public TMP_InputField ifPopup;
+    
+    public ProblemManager problemManager;
+    
     public float speed = 3f;
     public Animator anim;
     public Rigidbody playerRigidbody;
@@ -34,6 +38,7 @@ public class BlockManager : MonoBehaviour
     {
         anim = player.GetComponent<Animator>();
         playerRigidbody = player.GetComponent<Rigidbody>();
+        problemManager = FindObjectOfType<ProblemManager>();
     }
 
     public void MakeList(GameObject block)
@@ -72,6 +77,24 @@ public class BlockManager : MonoBehaviour
     {
         for (int i = 0; i < blocks.Count; i++)
         {
+            if (player.GetComponent<PlayerCollider>().currentCollision.CompareTag("grass"))
+            {
+                problemManager.Fail();
+                break;
+            }
+
+            if (player.GetComponent<PlayerCollider>().currentCollision.CompareTag("Trigger"))
+            {
+                GameObject obj = Resources.Load<GameObject>("Models/lock");
+                GameObject obj1 = Instantiate(obj);
+                obj1.transform.position = new Vector3(2, 3, 1);
+                if (ifPopup.text == "False")
+                {
+                    problemManager.Fail();
+                    Destroy(obj1);
+                    break;
+                }
+            }
             Debug.Log(blocks[i].GetComponent<Block>().blockData.num);
             if (isIf)
             {
@@ -96,8 +119,6 @@ public class BlockManager : MonoBehaviour
         {
             yield break;
         }
-        FindObjectOfType<ProblemManager>().Checking();
-        
         
         switch (block.GetComponent<Block>().blockData.num)
         {

@@ -13,6 +13,10 @@ TagManager:
   - Correct
   - Wrong
   - Tile
+  - box
+  - grass
+  - Trigger
+  - Fake
   layers:
   - Default
   - TransparentFX

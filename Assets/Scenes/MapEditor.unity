@@ -4775,7 +4775,7 @@ Transform:
   m_GameObject: {fileID: 966488322}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.411038, y: 4, z: -1.7851878}
+  m_LocalPosition: {x: -2.4110382, y: 4, z: -1.7851878}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6014,31 +6014,67 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   placeablePrefabs:
-  - modelId: tile
-    icon: {fileID: 21300000, guid: 617732d3be80849388b749190ca7d3ea, type: 3}
-  - modelId: 0. answerTile
-    icon: {fileID: 21300000, guid: c5608747a9a5641bab53c7a906c2ce45, type: 3}
-  - modelId: 1. answerTile
-    icon: {fileID: 0}
-  - modelId: 1. correct tile
-    icon: {fileID: 0}
-  - modelId: 1. wrong tile
-    icon: {fileID: 0}
   - modelId: grass
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: 01bd8eb0463944b11ae1d603149adebb, type: 3}
   - modelId: rail
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: 99078ca88a92f46c8a7b361a91e05384, type: 3}
   - modelId: rail 1
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: 14ce5432ff06446cb83614ce2c8c6966, type: 3}
   - modelId: tree-pine
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: 92a7ea1e3eb544def830b605f52a2ee6, type: 3}
   - modelId: tree
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: da32f51f4909041cf83bd72f7baf8704, type: 3}
   - modelId: flag
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: 3f49eb42fe61546a8ae45fd567d66761, type: 3}
   - modelId: button
+    icon: {fileID: 21300000, guid: a2720c33494754aeb8851a3e2c7954fb, type: 3}
+  - modelId: rocks
+    icon: {fileID: 21300000, guid: 5073fbb94e15444ec8f3b30dbf254eee, type: 3}
+  - modelId: flowers
     icon: {fileID: 0}
+  - modelId: flowers 1
+    icon: {fileID: 0}
+  - modelId: mushrooms
+    icon: {fileID: 21300000, guid: 2066a233d9f20499d88907039887d24e, type: 3}
+  - modelId: grass 1
+    icon: {fileID: 21300000, guid: 72cc8debd4a504eb4a2567a6a4a61404, type: 3}
+  - modelId: crate
+    icon: {fileID: 0}
+  - modelId: num2goal
+    icon: {fileID: 21300000, guid: a1940c51c191245eb8b74120df392a1e, type: 3}
+  - modelId: num2wrong1
+    icon: {fileID: 21300000, guid: a1940c51c191245eb8b74120df392a1e, type: 3}
+  - modelId: num2wrong2
+    icon: {fileID: 21300000, guid: a1940c51c191245eb8b74120df392a1e, type: 3}
+  - modelId: heart
+    icon: {fileID: 21300000, guid: 0568d3cc4f1c54a7b9619dfd852b5959, type: 3}
+  - modelId: num1box
+    icon: {fileID: 0}
+  - modelId: num1goal
+    icon: {fileID: 0}
+  - modelId: num1wrong
+    icon: {fileID: 0}
+  - modelId: num2box
+    icon: {fileID: 0}
+  - modelId: arrows
+    icon: {fileID: 21300000, guid: 98fba1095baab435fab172b69a0b632f, type: 3}
+  - modelId: chest
+    icon: {fileID: 21300000, guid: 353e06a98af9b4a8ba2d7017aa6eaeeb, type: 3}
+  - modelId: lever
+    icon: {fileID: 21300000, guid: ec9cfde7ebd2d42dbb6852ab37c4d366, type: 3}
+  - modelId: fence
+    icon: {fileID: 21300000, guid: 5ec8148726c1f4a4f8369ce250819dba, type: 3}
   - modelId: box
+    icon: {fileID: 0}
+  - modelId: goal
+    icon: {fileID: 21300000, guid: a1940c51c191245eb8b74120df392a1e, type: 3}
+  - modelId: trigger
+    icon: {fileID: 0}
+  - modelId: fakeGrass
+    icon: {fileID: 0}
+  - modelId: fakeRail
+    icon: {fileID: 0}
+  - modelId: wrong
     icon: {fileID: 0}
   placedObjects: []
   placedInstances: []
@@ -6265,8 +6301,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1203072136}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.3187303, y: 0.42033133, z: -0.16059369, w: 0.83423156}
-  m_LocalPosition: {x: -2.411038, y: 4, z: -1.7851878}
+  m_LocalRotation: {x: 0.31873026, y: 0.4203313, z: -0.16059367, w: 0.8342316}
+  m_LocalPosition: {x: -2.4110382, y: 4, z: -1.7851878}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6923,7 +6959,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1236273344}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.3187303, y: 0.4203313, z: -0.16059367, w: 0.8342316}
+  m_LocalRotation: {x: 0.31873026, y: 0.4203313, z: -0.16059367, w: 0.83423156}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -9434,7 +9470,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1734307235}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.24112362, y: 0.43325347, z: -0.12149118, w: 0.85987836}
+  m_LocalRotation: {x: 0.24112359, y: 0.43325353, z: -0.12149118, w: 0.85987836}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

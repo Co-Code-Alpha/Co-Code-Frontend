@@ -12,7 +12,6 @@ public class BlockColliderTop : MonoBehaviour
     {
         if (!transform.parent.GetComponent<DragDrop>().isClicked)
         {
-            Debug.Log("1234");
             return;
         }
         otherBlock = other.transform.parent;

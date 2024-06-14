@@ -21,7 +21,7 @@ public class IfBlock : MonoBehaviour, IPointerClickHandler
     {
         ifPopup.SetActive(true);
         Vector2 mousePosition = Input.mousePosition;
-        Vector2 offset = new Vector2(-1f, 1f);
+        Vector2 offset = new Vector2(-5f, 5f);
         RectTransformUtility.ScreenPointToLocalPointInRectangle(ifPopup.transform.parent.GetComponent<RectTransform>(), mousePosition, null, out Vector2 localPoint);
         ifPopup.transform.localPosition = localPoint + offset;
     }
@@ -64,10 +64,6 @@ public class IfBlock : MonoBehaviour, IPointerClickHandler
                 break;
         }
     }
-
-    public void ChangeText()
-    {
-        
-    }
+    
     
 }
