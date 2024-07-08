@@ -3,7 +3,20 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Canvas
+  - Block
+  - Trash
+  - Window
+  - Answer
+  - PlayerEyes
+  - Correct
+  - Wrong
+  - Tile
+  - box
+  - grass
+  - Trigger
+  - Fake
   layers:
   - Default
   - TransparentFX
